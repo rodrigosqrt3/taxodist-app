@@ -1,0 +1,319 @@
+{
+  "languages":["en", "pt", "es", "fr", "de"],
+  "translation":[
+    {
+      "en": "Taxonomic Distance & Phylogenetic Lineage Explorer — powered by The Taxonomicon", 
+      "pt": "Explorador de Distância Taxonômica e Linhagem Filogenética — provido por The Taxonomicon",
+      "es": "Explorador de Distancia Taxonómica y Linaje Filogenético — impulsado por The Taxonomicon",
+      "fr": "Explorateur de Distance Taxonomique et de Lignée Phylogénétique — propulsé par The Taxonomicon",
+      "de": "Taxonomische Distanz & Phylogenetischer Abstammungs-Explorer — unterstützt von The Taxonomicon"
+    },
+    {
+      "en": "Querying The Taxonomicon…", 
+      "pt": "Consultando o Taxonomicon…",
+      "es": "Consultando The Taxonomicon…",
+      "fr": "Interrogation de The Taxonomicon…",
+      "de": "Abfrage von The Taxonomicon…"
+    },
+    {
+      "en": "Pairwise Distance", "pt": "Distância Par a Par", "es": "Distancia por Pares", "fr": "Distance par Paires", "de": "Paarweise Distanz"
+    },
+    {
+      "en": "Taxa", "pt": "Táxons", "es": "Taxones", "fr": "Taxons", "de": "Taxa"
+    },
+    {
+      "en": "Taxon A", "pt": "Táxon A", "es": "Taxón A", "fr": "Taxon A", "de": "Taxon A"
+    },
+    {
+      "en": "e.g. Tyrannosaurus", "pt": "ex. Tyrannosaurus", "es": "ej. Tyrannosaurus", "fr": "ex. Tyrannosaurus", "de": "z.B. Tyrannosaurus"
+    },
+    {
+      "en": "Taxon B", "pt": "Táxon B", "es": "Taxón B", "fr": "Taxon B", "de": "Taxon B"
+    },
+    {
+      "en": "e.g. Velociraptor", "pt": "ex. Velociraptor", "es": "ej. Velociraptor", "fr": "ex. Velociraptor", "de": "z.B. Velociraptor"
+    },
+    {
+      "en": "Compute Distance", "pt": "Calcular Distância", "es": "Calcular Distancia", "fr": "Calculer la Distance", "de": "Distanz Berechnen"
+    },
+    {
+      "en": "Shuffle", "pt": "Embaralhar", "es": "Aleatorio", "fr": "Mélanger", "de": "Mischen"
+    },
+    {
+      "en": "Try these:", "pt": "Tente estes:", "es": "Prueba estos:", "fr": "Essayez ceux-ci :", "de": "Versuchen Sie diese:"
+    },
+    {
+      "en": "Results will appear here.", "pt": "Os resultados aparecerão aqui.", "es": "Los resultados aparecerán aquí.", "fr": "Les résultats apparaîtront ici.", "de": "Ergebnisse werden hier angezeigt."
+    },
+    {
+      "en": "0 (ancestor)", "pt": "0 (ancestral)", "es": "0 (ancestro)", "fr": "0 (ancêtre)", "de": "0 (Vorfahr)"
+    },
+    {
+      "en": "No common ancestor found.", "pt": "Nenhum ancestral comum encontrado.", "es": "No se encontró un ancestro común.", "fr": "Aucun ancêtre commun trouvé.", "de": "Kein gemeinsamer Vorfahre gefunden."
+    },
+    {
+      "en": "One taxon is an ancestor of the other.", "pt": "Um táxon é ancestral do outro.", "es": "Un taxón es ancestro del otro.", "fr": "Un taxon est un ancêtre de l'autre.", "de": "Ein Taxon ist ein Vorfahre des anderen."
+    },
+    {
+      "en": "Distance", "pt": "Distância", "es": "Distancia", "fr": "Distance", "de": "Distanz"
+    },
+    {
+      "en": "Most Recent Common Ancestor", "pt": "Ancestral Comum Mais Recente", "es": "Ancestro Común Más Reciente", "fr": "Ancêtre Commun le Plus Récent", "de": "Jüngster Gemeinsamer Vorfahre"
+    },
+    {
+      "en": "MRCA depth: %d | Depth %s: %d | Depth %s: %d", 
+      "pt": "Prof. ACMR: %d | Prof. %s: %d | Prof. %s: %d",
+      "es": "Prof. ACMR: %d | Prof. %s: %d | Prof. %s: %d",
+      "fr": "Prof. ACPR: %d | Prof. %s: %d | Prof. %s: %d",
+      "de": "JGV-Tiefe: %d | Tiefe %s: %d | Tiefe %s: %d"
+    },
+    {
+      "en": "MRCA at depth %d; distance = 1 / %d.", 
+      "pt": "ACMR na profundidade %d; distância = 1 / %d.",
+      "es": "ACMR en profundidad %d; distancia = 1 / %d.",
+      "fr": "ACPR à la profondeur %d ; distance = 1 / %d.",
+      "de": "JGV in Tiefe %d; Distanz = 1 / %d."
+    },
+    {
+      "en": "Lineage Comparison", "pt": "Comparação de Linhagens", "es": "Comparación de Linajes", "fr": "Comparaison de Lignées", "de": "Abstammungsvergleich"
+    },
+    {
+      "en": " Shared trunk  ", "pt": " Tronco compartilhado  ", "es": " Tronco compartido  ", "fr": " Tronc partagé  ", "de": " Gemeinsamer Stamm  "
+    },
+    {
+      "en": " MRCA  ", "pt": " ACMR  ", "es": " ACMR  ", "fr": " ACPR  ", "de": " JGV  "
+    },
+    {
+      "en": " Unique", "pt": " Único", "es": " Único", "fr": " Unique", "de": " Einzigartig"
+    },
+    {
+      "en": "Distance Matrix", "pt": "Matriz de Distância", "es": "Matriz de Distancia", "fr": "Matrice de Distances", "de": "Distanzmatrix"
+    },
+    {
+      "en": "Taxa List", "pt": "Lista de Táxons", "es": "Lista de Taxones", "fr": "Liste de Taxons", "de": "Taxa-Liste"
+    },
+    {
+      "en": "Enter taxa (one per line or comma-separated)", 
+      "pt": "Insira os táxons (um por linha ou separados por vírgula)",
+      "es": "Ingrese taxones (uno por línea o separados por comas)",
+      "fr": "Entrez les taxons (un par ligne ou séparés par des virgules)",
+      "de": "Taxa eingeben (eines pro Zeile oder kommagetrennt)"
+    },
+    {
+      "en": "Build Matrix", "pt": "Criar Matriz", "es": "Crear Matriz", "fr": "Construire la Matrice", "de": "Matrix Erstellen"
+    },
+    {
+      "en": "Or upload CSV (one taxon per row)", 
+      "pt": "Ou envie um CSV (um táxon por linha)",
+      "es": "O suba un CSV (un taxón por fila)",
+      "fr": "Ou téléchargez un CSV (un taxon par ligne)",
+      "de": "Oder CSV hochladen (ein Taxon pro Zeile)"
+    },
+    {
+      "en": "Dendrogram", "pt": "Dendrograma", "es": "Dendrograma", "fr": "Dendrogramme", "de": "Dendrogramm"
+    },
+    {
+      "en": "Ordination (PCoA)", "pt": "Ordenação (PCoA)", "es": "Ordenación (PCoA)", "fr": "Ordination (PCoA)", "de": "Ordination (PCoA)"
+    },
+    {
+      "en": "Coordinate 1", "pt": "Coordenada 1", "es": "Coordenada 1", "fr": "Coordonnée 1", "de": "Koordinate 1"
+    },
+    {
+      "en": "Coordinate 2", "pt": "Coordenada 2", "es": "Coordenada 2", "fr": "Coordonnée 2", "de": "Koordinate 2"
+    },
+    {
+      "en": "Goodness-of-fit: %s%%", "pt": "Qualidade de ajuste: %s%%", "es": "Bondad de ajuste: %s%%", "fr": "Qualité de l'ajustement : %s%%", "de": "Anpassungsgüte: %s%%"
+    },
+    {
+      "en": "Closest Relative", "pt": "Parente Mais Próximo", "es": "Pariente Más Cercano", "fr": "Parent le Plus Proche", "de": "Nächster Verwandter"
+    },
+    {
+      "en": "Query", "pt": "Consulta", "es": "Consulta", "fr": "Requête", "de": "Abfrage"
+    },
+    {
+      "en": "Query Taxon", "pt": "Táxon de Consulta", "es": "Taxón de Consulta", "fr": "Taxon de Requête", "de": "Abfrage-Taxon"
+    },
+    {
+      "en": "Candidate Taxa (one per line or comma-separated)", 
+      "pt": "Táxons Candidatos (um por linha ou separados por vírgula)",
+      "es": "Taxones Candidatos (uno por línea o separados por comas)",
+      "fr": "Taxons Candidats (un par ligne ou séparés par des virgules)",
+      "de": "Kandidaten-Taxa (eines pro Zeile oder kommagetrennt)"
+    },
+    {
+      "en": "Find Closest", "pt": "Encontrar Mais Próximo", "es": "Encontrar Más Cercano", "fr": "Trouver le Plus Proche", "de": "Nächsten Finden"
+    },
+    {
+      "en": "Closest relative to", "pt": "Parente mais próximo de", "es": "Pariente más cercano a", "fr": "Parent le plus proche de", "de": "Nächster Verwandter von"
+    },
+    {
+      "en": "is", "pt": "é", "es": "es", "fr": "est", "de": "ist"
+    },
+    {
+      "en": "lineage depth: %d", "pt": "profundidade da linhagem: %d", "es": "profundidad del linaje: %d", "fr": "profondeur de la lignée : %d", "de": "Abstammungstiefe: %d"
+    },
+    {
+      "en": "distance = %s", "pt": "distância = %s", "es": "distancia = %s", "fr": "distance = %s", "de": "Distanz = %s"
+    },
+    {
+      "en": " | lineage depth: %d", "pt": " | profundidade da linhagem: %d", "es": " | profundidad del linaje: %d", "fr": " | profondeur de la lignée : %d", "de": " | Abstammungstiefe: %d"
+    },
+    {
+      "en": "⚠ Data quality notice: ", "pt": "⚠ Aviso de qualidade de dados: ", "es": "⚠ Aviso de calidad de datos: ", "fr": "⚠ Avis de qualité des données : ", "de": "⚠ Hinweis zur Datenqualität: "
+    },
+    {
+      "en": "One or more taxa have a shallow lineage depth (< 25 nodes) in The Taxonomicon, meaning they are poorly resolved in the database. Their distances may be artificially large and rankings unreliable. Check the Lineage Explorer tab for details.", 
+      "pt": "Um ou mais táxons têm uma profundidade de linhagem rasa (< 25 nós) no Taxonomicon, significando que são mal resolvidos no banco de dados. Suas distâncias podem ser artificialmente grandes e os ranqueamentos não confiáveis. Verifique a aba Explorador de Linhagem para detalhes.",
+      "es": "Uno o más taxones tienen una profundidad de linaje baja (< 25 nodos) en The Taxonomicon, lo que significa que están mal resueltos en la base de datos. Sus distancias pueden ser artificialmente grandes y sus clasificaciones poco confiables. Verifique la pestaña Explorador de Linajes para más detalles.",
+      "fr": "Un ou plusieurs taxons ont une faible profondeur de lignée (< 25 nœuds) dans The Taxonomicon, ce qui signifie qu'ils sont mal résolus dans la base de données. Leurs distances peuvent être artificiellement grandes et les classements peu fiables. Consultez l'onglet Explorateur de Lignées pour plus de détails.",
+      "de": "Ein oder mehrere Taxa haben eine geringe Abstammungstiefe (< 25 Knoten) in The Taxonomicon, was bedeutet, dass sie in der Datenbank schlecht aufgelöst sind. Ihre Distanzen können künstlich groß und Rankings unzuverlässig sein. Überprüfen Sie den Tab Abstammungs-Explorer für Details."
+    },
+    {
+      "en": "All candidates ranked", "pt": "Todos os candidatos ranqueados", "es": "Todos los candidatos clasificados", "fr": "Tous les candidats classés", "de": "Alle Kandidaten im Ranking"
+    },
+    {
+      "en": "Taxon", "pt": "Táxon", "es": "Taxón", "fr": "Taxon", "de": "Taxon"
+    },
+    {
+      "en": "Depth", "pt": "Profundidade", "es": "Profundidad", "fr": "Profondeur", "de": "Tiefe"
+    },
+    {
+      "en": "Lineage Explorer", "pt": "Explorador de Linhagem", "es": "Explorador de Linajes", "fr": "Explorateur de Lignées", "de": "Abstammungs-Explorer"
+    },
+    {
+      "en": "Taxon name", "pt": "Nome do táxon", "es": "Nombre del taxón", "fr": "Nom du taxon", "de": "Taxon-Name"
+    },
+    {
+      "en": "e.g. Homo sapiens", "pt": "ex. Homo sapiens", "es": "ej. Homo sapiens", "fr": "ex. Homo sapiens", "de": "z.B. Homo sapiens"
+    },
+    {
+      "en": "Get Lineage", "pt": "Obter Linhagem", "es": "Obtener Linaje", "fr": "Obtenir la Lignée", "de": "Abstammung Abrufen"
+    },
+    {
+      "en": "Check clade membership", "pt": "Checar pertencimento ao clado", "es": "Comprobar pertenencia al clado", "fr": "Vérifier l'appartenance au clade", "de": "Klade-Zugehörigkeit prüfen"
+    },
+    {
+      "en": "e.g. Amniota", "pt": "ex. Amniota", "es": "ej. Amniota", "fr": "ex. Amniota", "de": "z.B. Amniota"
+    },
+    {
+      "en": "Check", "pt": "Checar", "es": "Comprobar", "fr": "Vérifier", "de": "Prüfen"
+    },
+    {
+      "en": "Lineage of %s (%d nodes)", "pt": "Linhagem de %s (%d nós)", "es": "Linaje de %s (%d nodos)", "fr": "Lignée de %s (%d nœuds)", "de": "Abstammung von %s (%d Knoten)"
+    },
+    {
+      "en": "%s IS a member of %s", "pt": "%s É um membro de %s", "es": "%s ES un miembro de %s", "fr": "%s EST un membre de %s", "de": "%s IST ein Mitglied von %s"
+    },
+    {
+      "en": "%s is NOT a member of %s", "pt": "%s NÃO é um membro de %s", "es": "%s NO es un miembro de %s", "fr": "%s N'EST PAS un membre de %s", "de": "%s ist KEIN Mitglied von %s"
+    },
+    {
+      "en": "Search Database", "pt": "Buscar no Banco", "es": "Buscar en la Base de Datos", "fr": "Chercher dans la Base de Données", "de": "Datenbank Durchsuchen"
+    },
+    {
+      "en": "Search Taxonomicon", "pt": "Buscar no Taxonomicon", "es": "Buscar en Taxonomicon", "fr": "Chercher dans Taxonomicon", "de": "Taxonomicon Durchsuchen"
+    },
+    {
+      "en": "e.g. Bacteria", "pt": "ex. Bacteria", "es": "ej. Bacteria", "fr": "ex. Bacteria", "de": "z.B. Bacteria"
+    },
+    {
+      "en": "Search", "pt": "Buscar", "es": "Buscar", "fr": "Chercher", "de": "Suchen"
+    },
+    {
+      "en": "Use this tool to find exact numeric IDs for ambiguous taxa (homonyms or historical ranks).", 
+      "pt": "Use esta ferramenta para encontrar IDs numéricos exatos para táxons ambíguos (homônimos ou classificações históricas).",
+      "es": "Use esta herramienta para encontrar identificadores numéricos exactos para taxones ambiguos (homónimos o clasificaciones históricas).",
+      "fr": "Utilisez cet outil pour trouver des identifiants numériques exacts pour des taxons ambigus (homonymes ou rangs historiques).",
+      "de": "Verwenden Sie dieses Tool, um genaue numerische IDs für mehrdeutige Taxa (Homonyme oder historische Ränge) zu finden."
+    },
+    {
+      "en": "Tip:", "pt": "Dica:", "es": "Consejo:", "fr": "Astuce :", "de": "Tipp:"
+    },
+    {
+      "en": " You can type or paste these numeric IDs directly into ANY other tab in this app instead of the taxon name!", 
+      "pt": " Você pode digitar ou colar esses IDs numéricos diretamente em QUALQUER outra aba deste app em vez do nome do táxon!",
+      "es": " ¡Puede escribir o pegar estos identificadores numéricos directamente en CUALQUIER otra pestaña de esta aplicación en lugar del nombre del taxón!",
+      "fr": " Vous pouvez taper ou coller ces identifiants numériques directement dans N'IMPORTE QUEL autre onglet de cette application au lieu du nom du taxon !",
+      "de": " Sie können diese numerischen IDs direkt in JEDEN anderen Tab in dieser App eingeben oder einfügen, anstatt des Taxon-Namens!"
+    },
+    {
+      "en": "No matches found.", "pt": "Nenhuma correspondência encontrada.", "es": "No se encontraron coincidencias.", "fr": "Aucune correspondance trouvée.", "de": "Keine Treffer gefunden."
+    },
+    {
+      "en": "Search results for '%s'", "pt": "Resultados da busca por '%s'", "es": "Resultados de búsqueda para '%s'", "fr": "Résultats de recherche pour '%s'", "de": "Suchergebnisse für '%s'"
+    },
+    {
+      "en": "Numeric ID", "pt": "ID Numérico", "es": "ID Numérico", "fr": "ID Numérique", "de": "Numerische ID"
+    },
+    {
+      "en": "Accepted Name / Rank", "pt": "Nome Aceito / Classificação", "es": "Nombre Aceptado / Rango", "fr": "Nom Accepté / Rang", "de": "Akzeptierter Name / Rang"
+    },
+    {
+      "en": "Coverage Check", "pt": "Checar Cobertura", "es": "Comprobación de Cobertura", "fr": "Vérification de Couverture", "de": "Abdeckungsprüfung"
+    },
+    {
+      "en": "Taxa to Check", "pt": "Táxons para Checar", "es": "Taxones a Comprobar", "fr": "Taxons à Vérifier", "de": "Zu prüfende Taxa"
+    },
+    {
+      "en": "Or upload CSV", "pt": "Ou envie um CSV", "es": "O suba un CSV", "fr": "Ou téléchargez un CSV", "de": "Oder CSV hochladen"
+    },
+    {
+      "en": "Found in Taxonomicon", "pt": "Encontrado no Taxonomicon", "es": "Encontrado en Taxonomicon", "fr": "Trouvé dans Taxonomicon", "de": "Gefunden in Taxonomicon"
+    },
+    {
+      "en": "Not found", "pt": "Não encontrado", "es": "No encontrado", "fr": "Non trouvé", "de": "Nicht gefunden"
+    },
+    {
+      "en": "Coverage by taxon", "pt": "Cobertura por táxon", "es": "Cobertura por taxón", "fr": "Couverture par taxon", "de": "Abdeckung pro Taxon"
+    },
+    {
+      "en": "Filter by Clade", "pt": "Filtrar por Clado", "es": "Filtrar por Clado", "fr": "Filtrer par Clade", "de": "Nach Klade Filtern"
+    },
+    {
+      "en": "Filter Settings", "pt": "Configurações de Filtro", "es": "Configuraciones de Filtro", "fr": "Paramètres de Filtre", "de": "Filtereinstellungen"
+    },
+    {
+      "en": "Taxa list (one per line or comma-separated)", 
+      "pt": "Lista de táxons (um por linha ou separados por vírgula)",
+      "es": "Lista de taxones (uno por línea o separados por comas)",
+      "fr": "Liste de taxons (un par ligne ou séparés par des virgules)",
+      "de": "Taxa-Liste (eines pro Zeile oder kommagetrennt)"
+    },
+    {
+      "en": "Clade to filter by", "pt": "Clado para filtrar", "es": "Clado para filtrar", "fr": "Clade pour filtrer", "de": "Klade zum Filtern"
+    },
+    {
+      "en": "e.g. Theropoda", "pt": "ex. Theropoda", "es": "ej. Theropoda", "fr": "ex. Theropoda", "de": "z.B. Theropoda"
+    },
+    {
+      "en": "Filter", "pt": "Filtrar", "es": "Filtrar", "fr": "Filtrer", "de": "Filtern"
+    },
+    {
+      "en": "Clade filter", "pt": "Filtro de clado", "es": "Filtro de clado", "fr": "Filtre de clade", "de": "Kladenfilter"
+    },
+    {
+      "en": "%d of %d taxa retained", "pt": "%d de %d táxons mantidos", "es": "%d de %d taxones retenidos", "fr": "%d sur %d taxons conservés", "de": "%d von %d Taxa behalten"
+    },
+    {
+      "en": "Results", "pt": "Resultados", "es": "Resultados", "fr": "Résultats", "de": "Ergebnisse"
+    },
+    {
+      "en": "In %s (%d)", "pt": "Em %s (%d)", "es": "En %s (%d)", "fr": "Dans %s (%d)", "de": "In %s (%d)"
+    },
+    {
+      "en": "none", "pt": "nenhum", "es": "ninguno", "fr": "aucun", "de": "keine"
+    },
+    {
+      "en": "Not in %s (%d)", "pt": "Não em %s (%d)", "es": "No en %s (%d)", "fr": "Pas dans %s (%d)", "de": "Nicht in %s (%d)"
+    },
+    {
+      "en": "Check Coverage", "pt": "Checar Cobertura", "es": "Comprobar Cobertura", "fr": "Vérifier la Couverture", "de": "Abdeckung Prüfen"
+    },
+    {
+      "en": "Browse...", "pt": "Procurar...", "es": "Buscar...", "fr": "Parcourir...", "de": "Durchsuchen..."
+    },
+    {
+      "en": "No file selected", "pt": "Nenhum arquivo selecionado", "es": "Ningún archivo seleccionado", "fr": "Aucun fichier sélectionné", "de": "Keine Datei ausgewählt"
+    }
+  ]
+}

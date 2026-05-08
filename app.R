@@ -4,6 +4,11 @@ library(taxodist)
 library(ggplot2)
 library(ggrepel)
 library(DT)
+library(shiny.i18n)
+
+# ── Setup i18n ────────────────────────────────────────────────────────────────
+i18n <- Translator$new(translation_json_path = "translation.json")
+i18n$set_translation_language("en")
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -57,7 +62,6 @@ app_theme <- bs_theme(
       padding: 2rem 2.5rem 1.6rem;
       border-bottom: 3px solid var(--amber);
       position: relative;
-      overflow: hidden;
     }
     .app-header::before {
       content: '';
@@ -300,18 +304,24 @@ app_theme <- bs_theme(
 
 ui <- fluidPage(
   theme = app_theme,
+  shiny.i18n::usei18n(i18n),
   tags$head(
     tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
     tags$style(HTML("
-      textarea { resize: vertical; }
-      .dataTables_wrapper { font-size:0.83rem; font-family:'Lora',serif; }
-    "))
+    textarea { resize: vertical; }
+    .dataTables_wrapper { font-size:0.83rem; font-family:'Lora',serif; }
+
+    .selectize-input,
+    .selectize-dropdown {
+      font-family: 'Segoe UI Emoji', sans-serif;
+    }
+  "))
   ),
 
   # Loading overlay
   div(id = "loading_overlay",
       div(class = "spinner-border", role = "status"),
-      div(class = "loading-text", "Querying The Taxonomicon…")
+      div(class = "loading-text", i18n$t("Querying The Taxonomicon…"))
   ),
   tags$script(HTML("
     Shiny.addCustomMessageHandler('show_loading', function(msg) {
@@ -320,13 +330,36 @@ ui <- fluidPage(
     Shiny.addCustomMessageHandler('hide_loading', function(msg) {
       document.getElementById('loading_overlay').classList.remove('show');
     });
+
+    /* --- NEW CODE TO TRANSLATE FILE INPUTS --- */
+    Shiny.addCustomMessageHandler('translate_file_inputs', function(msg) {
+      $('.shiny-input-container input[type=\"file\"]').each(function() {
+        var $container = $(this).closest('.input-group');
+        var $btn = $container.find('.btn-file');
+        if($btn.length > 0 && $btn[0].childNodes.length > 0) {
+           $btn[0].childNodes[0].nodeValue = msg.browse + ' ';
+        }
+        $container.find('input[type=\"text\"][readonly]').attr('placeholder', msg.no_file);
+      });
+    });
   ")),
 
   # Header
   div(class = "app-header mb-0",
+      div(style = "position: absolute; right: 25px; top: 25px; z-index: 1000;",
+          selectInput("selected_language", NULL,
+                      choices = c(
+                        "English"   = "en",
+                        "Português" = "pt",
+                        "Español"   = "es",
+                        "Français"  = "fr",
+                        "Deutsch"   = "de"
+                      ),
+                      width = "150px")
+      ),
       h1(HTML(paste0('taxodist <span class=\"badge-pkg\">v', packageVersion("taxodist"), '</span>'))),
       div(class = "subtitle",
-          "Taxonomic Distance & Phylogenetic Lineage Explorer — powered by The Taxonomicon"
+          textOutput("app_subtitle", inline = TRUE)
       )
   ),
 
@@ -335,23 +368,23 @@ ui <- fluidPage(
     id = "main_tabs",
 
     # ── Tab 1: Pairwise Distance ──────────────────────────────────────────────
-    nav_panel("Pairwise Distance",
+    nav_panel(i18n$t("Pairwise Distance"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Taxa"),
+                             card_header(i18n$t("Taxa")),
                              div(class = "p-3",
-                                 textInput("pd_taxon_a", "Taxon A", placeholder = "e.g. Tyrannosaurus"),
-                                 textInput("pd_taxon_b", "Taxon B", placeholder = "e.g. Velociraptor"),
+                                 textInput("pd_taxon_a", i18n$t("Taxon A"), placeholder = i18n$t("e.g. Tyrannosaurus")),
+                                 textInput("pd_taxon_b", i18n$t("Taxon B"), placeholder = i18n$t("e.g. Velociraptor")),
                                  div(class = "d-flex gap-2 mt-3",
-                                     actionButton("pd_run", "Compute Distance",
+                                     actionButton("pd_run", i18n$t("Compute Distance"),
                                                   class = "btn btn-primary flex-grow-1", icon = icon("ruler")),
-                                     actionButton("pd_example", "Shuffle",
+                                     actionButton("pd_example", i18n$t("Shuffle"),
                                                   class = "btn btn-outline-secondary", icon = icon("shuffle"))
                                  ),
                                  hr(class = "section-divider"),
-                                 div(class = "result-label mb-1", "Try these:"),
+                                 div(class = "result-label mb-1", i18n$t("Try these:")),
                                  div(
                                    tags$small(class="text-muted fst-italic",
                                               "Tyrannosaurus / Velociraptor • Homo / Quercus • Nomingia / Huanansaurus"
@@ -374,26 +407,28 @@ ui <- fluidPage(
     ),
 
     # ── Tab 2: Distance Matrix ────────────────────────────────────────────────
-    nav_panel("Distance Matrix",
+    nav_panel(i18n$t("Distance Matrix"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Taxa List"),
+                             card_header(i18n$t("Taxa List")),
                              div(class = "p-3",
-                                 textAreaInput("dm_taxa", "Enter taxa (one per line or comma-separated)",
+                                 textAreaInput("dm_taxa", i18n$t("Enter taxa (one per line or comma-separated)"),
                                                rows = 8,
                                                placeholder = "Tyrannosaurus\nVelociraptor\nSpinosaurus\nAllosaurus\nCarnotaurus"
                                  ),
                                  div(class = "d-flex gap-2 mt-2",
-                                     actionButton("dm_run", "Build Matrix",
+                                     actionButton("dm_run", i18n$t("Build Matrix"),
                                                   class = "btn btn-primary flex-grow-1", icon = icon("table")),
-                                     actionButton("dm_example", "Shuffle",
+                                     actionButton("dm_example", i18n$t("Shuffle"),
                                                   class = "btn btn-outline-secondary", icon = icon("shuffle"))
                                  ),
                                  hr(class = "section-divider"),
-                                 fileInput("dm_upload", "Or upload CSV (one taxon per row)",
-                                           accept = ".csv", width = "100%"),
+                                 fileInput("dm_upload", i18n$t("Or upload CSV (one taxon per row)"),
+                                           accept = ".csv", width = "100%",
+                                           buttonLabel = gsub("<.*?>", "", i18n$t("Browse...")),
+                                           placeholder = gsub("<.*?>", "", i18n$t("No file selected")))
                              )
                            )
                     ),
@@ -405,22 +440,22 @@ ui <- fluidPage(
     ),
 
     # ── Tab 3: Closest Relative ───────────────────────────────────────────────
-    nav_panel("Closest Relative",
+    nav_panel(i18n$t("Closest Relative"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Query"),
+                             card_header(i18n$t("Query")),
                              div(class = "p-3",
-                                 textInput("cr_query", "Query Taxon", placeholder = "e.g. Tyrannosaurus"),
-                                 textAreaInput("cr_candidates", "Candidate Taxa (one per line or comma-separated)",
+                                 textInput("cr_query", i18n$t("Query Taxon"), placeholder = i18n$t("e.g. Tyrannosaurus")),
+                                 textAreaInput("cr_candidates", i18n$t("Candidate Taxa (one per line or comma-separated)"),
                                                rows = 6,
                                                placeholder = "Velociraptor\nTriceratops\nBrachiosaurus\nAllosaurus"
                                  ),
                                  div(class = "d-flex gap-2 mt-2",
-                                     actionButton("cr_run", "Find Closest",
+                                     actionButton("cr_run", i18n$t("Find Closest"),
                                                   class = "btn btn-primary flex-grow-1", icon = icon("crosshairs")),
-                                     actionButton("cr_example", "Shuffle",
+                                     actionButton("cr_example", i18n$t("Shuffle"),
                                                   class = "btn btn-outline-secondary", icon = icon("shuffle"))
                                  )
                              )
@@ -434,20 +469,20 @@ ui <- fluidPage(
     ),
 
     # ── Tab 4: Lineage Explorer ───────────────────────────────────────────────
-    nav_panel("Lineage Explorer",
+    nav_panel(i18n$t("Lineage Explorer"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Taxon"),
+                             card_header(i18n$t("Taxon")),
                              div(class = "p-3",
-                                 textInput("le_taxon", "Taxon name", placeholder = "e.g. Homo sapiens"),
-                                 actionButton("le_run", "Get Lineage",
+                                 textInput("le_taxon", i18n$t("Taxon name"), placeholder = i18n$t("e.g. Homo sapiens")),
+                                 actionButton("le_run", i18n$t("Get Lineage"),
                                               class = "btn btn-primary w-100 mt-2", icon = icon("sitemap")),
                                  hr(class = "section-divider"),
-                                 textInput("le_clade_check", "Check clade membership",
-                                           placeholder = "e.g. Amniota"),
-                                 actionButton("le_member_run", "Check",
+                                 textInput("le_clade_check", i18n$t("Check clade membership"),
+                                           placeholder = i18n$t("e.g. Amniota")),
+                                 actionButton("le_member_run", i18n$t("Check"),
                                               class = "btn btn-outline-secondary w-100 mt-1")
                              )
                            )
@@ -459,22 +494,22 @@ ui <- fluidPage(
               )
     ),
 
-    # ── Tab Nova: Search Database ─────────────────────────────────────────────
-    nav_panel("Search Database",
+    # ── Tab 5: Search Database ─────────────────────────────────────────────
+    nav_panel(i18n$t("Search Database"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Search Taxonomicon"),
+                             card_header(i18n$t("Search Taxonomicon")),
                              div(class = "p-3",
-                                 textInput("sd_taxon", "Taxon name", placeholder = "e.g. Bacteria"),
-                                 actionButton("sd_run", "Search",
+                                 textInput("sd_taxon", i18n$t("Taxon name"), placeholder = i18n$t("e.g. Bacteria")),
+                                 actionButton("sd_run", i18n$t("Search"),
                                               class = "btn btn-primary w-100 mt-2", icon = icon("search")),
                                  hr(class = "section-divider"),
                                  div(class = "text-muted fst-italic small",
-                                     "Use this tool to find exact numeric IDs for ambiguous taxa (homonyms or historical ranks).",
+                                     i18n$t("Use this tool to find exact numeric IDs for ambiguous taxa (homonyms or historical ranks)."),
                                      tags$br(), tags$br(),
-                                     tags$b("Tip:"), " You can type or paste these numeric IDs directly into ANY other tab in this app instead of the taxon name!"
+                                     tags$b(i18n$t("Tip:")), i18n$t(" You can type or paste these numeric IDs directly into ANY other tab in this app instead of the taxon name!")
                                  )
                              )
                            )
@@ -486,27 +521,29 @@ ui <- fluidPage(
               )
     ),
 
-    # ── Tab 5: Coverage Check ─────────────────────────────────────────────────
-    nav_panel("Coverage Check",
+    # ── Tab 6: Coverage Check ─────────────────────────────────────────────────
+    nav_panel(i18n$t("Coverage Check"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Taxa to Check"),
+                             card_header(i18n$t("Taxa to Check")),
                              div(class = "p-3",
-                                 textAreaInput("cc_taxa", "Enter taxa (one per line or comma-separated)",
+                                 textAreaInput("cc_taxa", i18n$t("Enter taxa (one per line or comma-separated)"),
                                                rows = 8,
                                                placeholder = "Tyrannosaurus\nVelociraptor\nFakeosaurus\nHomo"
                                  ),
                                  div(class = "d-flex gap-2 mt-2",
-                                     actionButton("cc_run", "Check Coverage",
+                                     actionButton("cc_run", i18n$t("Check Coverage"),
                                                   class = "btn btn-primary flex-grow-1", icon = icon("check-circle")),
-                                     actionButton("cc_example", "Shuffle",
+                                     actionButton("cc_example", i18n$t("Shuffle"),
                                                   class = "btn btn-outline-secondary", icon = icon("shuffle"))
                                  ),
                                  hr(class = "section-divider"),
-                                 fileInput("cc_upload", "Or upload CSV",
-                                           accept = ".csv", width = "100%")
+                                 fileInput("cc_upload", i18n$t("Or upload CSV (one taxon per row)"),
+                                           accept = ".csv", width = "100%",
+                                           buttonLabel = gsub("<.*?>", "", i18n$t("Browse...")),
+                                           placeholder = gsub("<.*?>", "", i18n$t("No file selected")))
                              )
                            )
                     ),
@@ -517,23 +554,23 @@ ui <- fluidPage(
               )
     ),
 
-    # ── Tab 6: Filter by Clade ────────────────────────────────────────────────
-    nav_panel("Filter by Clade",
+    # ── Tab 7: Filter by Clade ────────────────────────────────────────────────
+    nav_panel(i18n$t("Filter by Clade"),
               div(class = "container-fluid py-4",
                   fluidRow(
                     column(4,
                            card(
-                             card_header("Filter Settings"),
+                             card_header(i18n$t("Filter Settings")),
                              div(class = "p-3",
-                                 textAreaInput("fc_taxa", "Taxa list (one per line or comma-separated)",
+                                 textAreaInput("fc_taxa", i18n$t("Taxa list (one per line or comma-separated)"),
                                                rows = 6,
                                                placeholder = "Tyrannosaurus\nTriceratops\nVelociraptor\nBrachiosaurus\nHomo"
                                  ),
-                                 textInput("fc_clade", "Clade to filter by", placeholder = "e.g. Theropoda"),
+                                 textInput("fc_clade", i18n$t("Clade to filter by"), placeholder = i18n$t("e.g. Theropoda")),
                                  div(class = "d-flex gap-2 mt-2",
-                                     actionButton("fc_run", "Filter",
+                                     actionButton("fc_run", i18n$t("Filter"),
                                                   class = "btn btn-primary flex-grow-1", icon = icon("filter")),
-                                     actionButton("fc_example", "Shuffle",
+                                     actionButton("fc_example", i18n$t("Shuffle"),
                                                   class = "btn btn-outline-secondary", icon = icon("shuffle"))
                                  )
                              )
@@ -552,63 +589,83 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
 
+  # Language update logic ──────────────────────────────────────────────────────
+  observeEvent(input$selected_language, {
+    lang <- input$selected_language
+    i18n$set_translation_language(lang)
+    shiny.i18n::update_lang(lang)
+
+    txt <- function(x) i18n$t(x)
+    clean_txt <- function(x) gsub("<.*?>", "", i18n$t(x)) # Safely strips HTML!
+
+    # Update standard inputs
+    updateTextInput(session, "pd_taxon_a", label = txt("Taxon A"), placeholder = clean_txt("e.g. Tyrannosaurus"))
+    updateTextInput(session, "pd_taxon_b", label = txt("Taxon B"), placeholder = clean_txt("e.g. Velociraptor"))
+    updateActionButton(session, "pd_run", label = txt("Compute Distance"))
+    updateActionButton(session, "pd_example", label = txt("Shuffle"))
+
+    updateTextAreaInput(session, "dm_taxa", label = txt("Enter taxa (one per line or comma-separated)"))
+    updateActionButton(session, "dm_run", label = txt("Build Matrix"))
+    updateActionButton(session, "dm_example", label = txt("Shuffle"))
+
+    updateTextInput(session, "cr_query", label = txt("Query Taxon"), placeholder = clean_txt("e.g. Tyrannosaurus"))
+    updateTextAreaInput(session, "cr_candidates", label = txt("Candidate Taxa (one per line or comma-separated)"))
+    updateActionButton(session, "cr_run", label = txt("Find Closest"))
+    updateActionButton(session, "cr_example", label = txt("Shuffle"))
+
+    updateTextInput(session, "le_taxon", label = txt("Taxon name"), placeholder = clean_txt("e.g. Homo sapiens"))
+    updateActionButton(session, "le_run", label = txt("Get Lineage"))
+    updateTextInput(session, "le_clade_check", label = txt("Check clade membership"), placeholder = clean_txt("e.g. Amniota"))
+    updateActionButton(session, "le_member_run", label = txt("Check"))
+
+    updateTextInput(session, "sd_taxon", label = txt("Taxon name"), placeholder = clean_txt("e.g. Bacteria"))
+    updateActionButton(session, "sd_run", label = txt("Search"))
+
+    updateTextAreaInput(session, "cc_taxa", label = txt("Enter taxa (one per line or comma-separated)"))
+    updateActionButton(session, "cc_run", label = txt("Check Coverage"))
+    updateActionButton(session, "cc_example", label = txt("Shuffle"))
+
+    updateTextAreaInput(session, "fc_taxa", label = txt("Taxa list (one per line or comma-separated)"))
+    updateTextInput(session, "fc_clade", label = txt("Clade to filter by"), placeholder = clean_txt("e.g. Theropoda"))
+    updateActionButton(session, "fc_run", label = txt("Filter"))
+    updateActionButton(session, "fc_example", label = txt("Shuffle"))
+
+    # Safely update the File Upload buttons via Javascript!
+    session$sendCustomMessage("translate_file_inputs", list(
+      browse  = clean_txt("Browse..."),
+      no_file = clean_txt("No file selected")
+    ))
+  })
+
+  # Helper for server-side generated text (renderUI/Plots)
+  tr <- reactive({
+    req(input$selected_language)
+    function(msg, ...) {
+      translated <- i18n$t(msg)
+      args <- list(...)
+      if (length(args) > 0) return(do.call(sprintf, c(list(translated), args)))
+      return(translated)
+    }
+  })
+
+  # ── Dynamic UI Elements ─────────────────────────────────────────────────────
+  output$app_subtitle <- renderText({
+    tr()("Taxonomic Distance & Phylogenetic Lineage Explorer — powered by The Taxonomicon")
+  })
+
   # ── Pairwise Distance ───────────────────────────────────────────────────────
 
-  # Pool of diverse taxa for random shuffle
   shuffle_pool <- c(
-    # Dinossauros e répteis fósseis
-    "Tyrannosaurus", "Triceratops", "Carnotaurus", "Velociraptor",
-    "Spinosaurus", "Stegosaurus", "Brachiosaurus", "Diplodocus",
-    "Allosaurus", "Ankylosaurus", "Iguanodon", "Parasaurolophus",
-    "Deinonychus", "Archaeopteryx", "Pteranodon", "Mosasaurus",
-
-    # Aves
-    "Struthio", "Gallus", "Anas", "Columba", "Falco", "Corvus",
-    "Ara", "Spheniscus", "Aptenodytes", "Tyto", "Bubo",
-
-    # Mamíferos
-    "Homo", "Panthera", "Canis", "Felis", "Equus", "Bos",
-    "Sus", "Ovis", "Capra", "Mus", "Rattus", "Loxodonta",
-    "Giraffa", "Delphinus", "Balaenoptera", "Puma",
-    "Myrmecophaga", "Priodontes", "Tapirus", "Mazama",
-    "Chrysocyon", "Leontopithecus", "Brachyteles", "Pteronura",
-    "Ornithorhynchus", "Macropus", "Phascolarctos",
-
-    # Répteis e anfíbios
-    "Crocodylus", "Alligator", "Chelonia", "Varanus",
-    "Python", "Boa", "Iguana", "Rana", "Bufo", "Ambystoma",
-
-    # Peixes e marinhos
-    "Octopus", "Loligo", "Carcharodon", "Sphyrna", "Salmo",
-    "Oncorhynchus", "Thunnus", "Hippocampus", "Danio",
-    "Paramecium", "Aurelia", "Hydra",
-
-    # Insetos e artrópodes
-    "Drosophila", "Apis", "Bombus", "Atta", "Camponotus",
-    "Anopheles", "Aedes", "Culex", "Danaus", "Manduca",
-    "Latrodectus", "Loxosceles", "Scorpio",
-
-    # Invertebrados modelo
-    "Caenorhabditis", "Strongylocentrotus", "Nereis", "Lumbricus",
-
-    # Plantas
-    "Quercus", "Pinus", "Ginkgo", "Araucaria", "Eucalyptus",
-    "Ficus", "Zea", "Oryza", "Triticum", "Solanum",
-    "Arabidopsis", "Nicotiana", "Helianthus", "Coffea",
-    "Theobroma", "Musa", "Mangifera", "Passiflora",
-
-    # Fungos
-    "Saccharomyces", "Amanita", "Aspergillus", "Penicillium",
-    "Candida", "Neurospora", "Pleurotus",
-
-    # Bactérias e arqueias
-    "Escherichia", "Bacillus", "Staphylococcus", "Streptococcus",
-    "Pseudomonas", "Salmonella", "Lactobacillus", "Clostridium",
-    "Methanococcus", "Halobacterium", "Sulfolobus",
-
-    # Protistas e parasitas
-    "Plasmodium", "Trypanosoma", "Leishmania", "Giardia",
-    "Euglena", "Tetrahymena", "Amoeba"
+    "Tyrannosaurus", "Triceratops", "Carnotaurus", "Velociraptor", "Spinosaurus", "Stegosaurus", "Brachiosaurus", "Diplodocus",
+    "Struthio", "Gallus", "Anas", "Columba", "Falco", "Corvus", "Ara", "Spheniscus", "Aptenodytes", "Tyto", "Bubo",
+    "Homo", "Panthera", "Canis", "Felis", "Equus", "Bos", "Sus", "Ovis", "Capra", "Mus", "Rattus", "Loxodonta",
+    "Crocodylus", "Alligator", "Chelonia", "Varanus", "Python", "Boa", "Iguana", "Rana", "Bufo", "Ambystoma",
+    "Octopus", "Loligo", "Carcharodon", "Sphyrna", "Salmo", "Oncorhynchus", "Thunnus", "Hippocampus", "Danio",
+    "Drosophila", "Apis", "Bombus", "Atta", "Camponotus", "Anopheles", "Aedes", "Culex", "Danaus", "Manduca",
+    "Quercus", "Pinus", "Ginkgo", "Araucaria", "Eucalyptus", "Ficus", "Zea", "Oryza", "Triticum", "Solanum",
+    "Saccharomyces", "Amanita", "Aspergillus", "Penicillium", "Candida", "Neurospora", "Pleurotus",
+    "Escherichia", "Bacillus", "Staphylococcus", "Streptococcus", "Pseudomonas", "Salmonella", "Lactobacillus",
+    "Plasmodium", "Trypanosoma", "Leishmania", "Giardia", "Euglena", "Tetrahymena", "Amoeba"
   )
 
   observeEvent(input$pd_example, {
@@ -629,28 +686,28 @@ server <- function(input, output, session) {
 
   output$pd_result_ui <- renderUI({
     res <- pd_result()
-    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
 
     dist_fmt <- if (is.infinite(res$distance)) "∞" else
-      if (res$distance == 0) "0 (ancestor)" else
+      if (res$distance == 0) tr()("0 (ancestor)") else
         round(res$distance, 6)
-    interp <- if (is.infinite(res$distance)) "No common ancestor found."
-    else if (res$distance == 0) "One taxon is an ancestor of the other."
-    else sprintf("MRCA at depth %d; distance = 1 / %d.", res$mrca_depth, res$mrca_depth)
+    interp <- if (is.infinite(res$distance)) tr()("No common ancestor found.")
+    else if (res$distance == 0) tr()("One taxon is an ancestor of the other.")
+    else tr()("MRCA at depth %d; distance = 1 / %d.", res$mrca_depth, res$mrca_depth)
 
     tagList(
       div(class = "result-box mb-3",
           fluidRow(
             column(4,
-                   div(class = "result-label", "Distance"),
+                   div(class = "result-label", tr()("Distance")),
                    div(class = "result-distance", dist_fmt)
             ),
             column(8,
-                   div(class = "result-label", "Most Recent Common Ancestor"),
+                   div(class = "result-label", tr()("Most Recent Common Ancestor")),
                    div(class = "result-mrca", res$mrca),
                    div(class = "result-meta mt-1",
-                       sprintf("MRCA depth: %d | Depth %s: %d | Depth %s: %d",
-                               res$mrca_depth, res$taxon_a, res$depth_a, res$taxon_b, res$depth_b)
+                       tr()("MRCA depth: %d | Depth %s: %d | Depth %s: %d",
+                            res$mrca_depth, res$taxon_a, res$depth_a, res$taxon_b, res$depth_b)
                    ),
                    div(class = "result-meta mt-1 fst-italic", interp)
             )
@@ -688,14 +745,14 @@ server <- function(input, output, session) {
     }
 
     card(
-      card_header("Lineage Comparison"),
+      card_header(tr()("Lineage Comparison")),
       div(class = "p-3",
           fluidRow(
             column(12,
                    div(class = "mb-2",
-                       span(class = "lineage-node shared", "■"), " Shared trunk  ",
-                       span(class = "lineage-node mrca", "■"), " MRCA  ",
-                       span(class = "lineage-node", "■"), " Unique"
+                       span(class = "lineage-node shared", "■"), tr()(" Shared trunk  "),
+                       span(class = "lineage-node mrca", "■"), tr()(" MRCA  "),
+                       span(class = "lineage-node", "■"), tr()(" Unique")
                    )
             )
           ),
@@ -737,30 +794,28 @@ server <- function(input, output, session) {
   })
 
 
-  # ── Distance Matrix UI + Dendrogram ─────────────────────────────────────────
-
   output$dm_result_ui <- renderUI({
     dm <- dm_result()
-    if (is.null(dm)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(dm)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
     n  <- length(attr(dm, "Labels"))
     ht <- max(350, n * 58)
 
     tagList(
       card(
-        card_header("Distance Matrix"),
+        card_header(tr()("Distance Matrix")),
         div(class = "p-2", DTOutput("dm_table"))
       ),
       fluidRow(
         class = "mt-3",
         column(6,
                card(
-                 card_header("Dendrogram"),
+                 card_header(tr()("Dendrogram")),
                  div(class = "p-2", plotOutput("dm_dendro", height = paste0(ht, "px")))
                )
         ),
         column(6,
                card(
-                 card_header("Ordination (PCoA)"),
+                 card_header(tr()("Ordination (PCoA)")),
                  div(class = "p-2", plotOutput("dm_pcoa", height = paste0(ht, "px")))
                )
         )
@@ -775,13 +830,10 @@ server <- function(input, output, session) {
     hc <- hclust(dm, method = "average")
     n  <- length(hc$labels)
 
-    # ── 1. Leaf y-positions: follow hc$order (the correct display order) ──────
-    leaf_y        <- numeric(n)           # y for each original label index
-    leaf_y[hc$order] <- seq_len(n)       # ordered 1..n top to bottom
-
-    # ── 2. Internal node x (= merge height) and y (= mean of children) ────────
-    node_x <- hc$height                  # x = distance at merge
-    node_y <- numeric(n - 1)             # y = average position of children
+    leaf_y        <- numeric(n)
+    leaf_y[hc$order] <- seq_len(n)
+    node_x <- hc$height
+    node_y <- numeric(n - 1)
 
     get_node_y <- function(k) {
       if (k < 0) return(leaf_y[-k])
@@ -793,20 +845,16 @@ server <- function(input, output, session) {
                           get_node_y(hc$merge[i, 2])))
     }
 
-    # ── 3. Build segment data ─────────────────────────────────────────────────
-    #   (a) vertical connector between the two children's y positions, at height px
-    #   (b) horizontal drop from left  child y to its own merge height (or 0 if leaf)
-    #   (c) horizontal drop from right child y to its own merge height (or 0 if leaf)
     seg_list <- do.call(rbind, lapply(seq_len(n - 1), function(i) {
-      px   <- node_x[i]          # this node's height (x in flipped plot)
+      px   <- node_x[i]
       left <- hc$merge[i, 1]
       right<- hc$merge[i, 2]
-      cy_l <- get_node_y(left)   # y position of left  child
-      cy_r <- get_node_y(right)  # y position of right child
-      ch_l <- if (left  < 0) 0 else node_x[left]   # height of left  child
-      ch_r <- if (right < 0) 0 else node_x[right]  # height of right child
+      cy_l <- get_node_y(left)
+      cy_r <- get_node_y(right)
+      ch_l <- if (left  < 0) 0 else node_x[left]
+      ch_r <- if (right < 0) 0 else node_x[right]
       data.frame(
-        x    = c(cy_l, cy_l, cy_r),   # (a) vert, (b) left drop, (c) right drop
+        x    = c(cy_l, cy_l, cy_r),
         xend = c(cy_r, cy_l, cy_r),
         y    = c(px,   ch_l, ch_r),
         yend = c(px,   px,   px),
@@ -814,14 +862,8 @@ server <- function(input, output, session) {
       )
     }))
 
-    # ── 4. Tip label data ──────────────────────────────────────────────────────
-    tip_df <- data.frame(
-      x     = leaf_y,
-      label = hc$labels,
-      stringsAsFactors = FALSE
-    )
+    tip_df <- data.frame(x = leaf_y, label = hc$labels, stringsAsFactors = FALSE)
 
-    # ── 5. MRCA per internal node ──────────────────────────────────────────────
     get_leaves <- function(k) {
       if (k < 0) return(hc$labels[-k])
       c(get_leaves(hc$merge[k, 1]), get_leaves(hc$merge[k, 2]))
@@ -834,42 +876,21 @@ server <- function(input, output, session) {
       }, error = function(e) NA_character_)
     })
 
-    node_df <- data.frame(
-      x    = node_y,
-      y    = node_x,
-      mrca = node_mrca,
-      stringsAsFactors = FALSE
-    )
+    node_df <- data.frame(x = node_y, y = node_x, mrca = node_mrca, stringsAsFactors = FALSE)
     node_df <- node_df[!is.na(node_df$mrca), ]
 
-    # ── 6. Plot ────────────────────────────────────────────────────────────────
     max_dist  <- max(hc$height)
     max_chars <- max(nchar(hc$labels))
     label_gap   <- max_dist * 0.000001
     label_width <- max_chars * max_dist * 0.018
 
     ggplot() +
-      geom_segment(data = seg_list,
-                   aes(x = x, xend = xend, y = y, yend = yend),
-                   colour = "#2D5016", linewidth = 1.1) +
-      geom_text(data = tip_df,
-                aes(x = x, label = label),
-                y      = -label_gap,
-                hjust  = 0, vjust = 0.5, size = 5.5,
-                family = "serif", fontface = "italic", colour = "#1C1812") +
-      geom_text(data = node_df,
-                aes(x = x, y = y, label = mrca),
-                hjust = 0.5, vjust = -0.65, size = 6,
-                family = "serif", fontface = "italic", colour = "#8B6914") +
-      geom_point(data = node_df,
-                 aes(x = x, y = y),
-                 colour = "#8B6914", fill = "#FAF7F0",
-                 shape = 21, size = 3.5, stroke = 1.4) +
+      geom_segment(data = seg_list, aes(x = x, xend = xend, y = y, yend = yend), colour = "#2D5016", linewidth = 1.1) +
+      geom_text(data = tip_df, aes(x = x, label = label), y = -label_gap, hjust = 0, vjust = 0.5, size = 5.5, family = "serif", fontface = "italic", colour = "#1C1812") +
+      geom_text(data = node_df, aes(x = x, y = y, label = mrca), hjust = 0.5, vjust = -0.65, size = 6, family = "serif", fontface = "italic", colour = "#8B6914") +
+      geom_point(data = node_df, aes(x = x, y = y), colour = "#8B6914", fill = "#FAF7F0", shape = 21, size = 3.5, stroke = 1.4) +
       coord_flip(clip = "off") +
-      scale_y_reverse(
-        limits = c(max_dist * 1.04, -(label_gap + label_width)),
-        expand = expansion(mult = c(0.05, 0.7))
-      ) +
+      scale_y_reverse(limits = c(max_dist * 1.04, -(label_gap + label_width)), expand = expansion(mult = c(0.05, 0.7))) +
       scale_x_continuous(expand = expansion(mult = 0.05)) +
       labs(x = NULL, y = NULL) +
       theme_minimal(base_family = "serif") +
@@ -892,10 +913,7 @@ server <- function(input, output, session) {
               class = "compact hover"
     ) |>
       formatStyle(columns = colnames(mat_fmt),
-                  background = styleInterval(
-                    c(0.05, 0.15, 0.3),
-                    c("#d4e8c2", "#eaf3d9", "#fdf6e3", "#f8e8d8")
-                  )
+                  background = styleInterval(c(0.05, 0.15, 0.3), c("#d4e8c2", "#eaf3d9", "#fdf6e3", "#f8e8d8"))
       )
   })
 
@@ -911,18 +929,15 @@ server <- function(input, output, session) {
     gof_pct <- round(ord$GOF[1] * 100, 1)
 
     ggplot(df, aes(x = PC1, y = PC2, label = Taxon)) +
-      # Eixos centrais mais sutis
       geom_hline(yintercept = 0, linetype = "dashed", color = "#C8B99A", linewidth = 0.5) +
       geom_vline(xintercept = 0, linetype = "dashed", color = "#C8B99A", linewidth = 0.5) +
-      # Pontos elegantes
       geom_point(color = "#8B6914", fill = "#FAF7F0", shape = 21, size = 3.5, stroke = 1.4) +
-      # Repulsão automática de texto para NUNCA sobrepor
       geom_text_repel(
         family = "serif", fontface = "italic", color = "#1C1812", size = 5,
         box.padding = 0.5, point.padding = 0.3, segment.color = "#C8B99A", segment.alpha = 0.6
       ) +
-      labs(x = "Coordinate 1", y = "Coordinate 2",
-           subtitle = paste0("Goodness-of-fit: ", gof_pct, "%")) +
+      labs(x = tr()("Coordinate 1"), y = tr()("Coordinate 2"),
+           subtitle = tr()("Goodness-of-fit: %s%%", gof_pct)) +
       theme_minimal(base_family = "serif") +
       theme(
         panel.grid.major = element_line(color = "#EAE3D5"),
@@ -955,7 +970,6 @@ server <- function(input, output, session) {
     )
     if (is.null(dist_df)) return(NULL)
 
-    # fetch lineage depths for query and all candidates
     query_depth <- lineage_depth(query)
     cand_depths <- sapply(candidates, function(t) {
       d <- lineage_depth(t)
@@ -966,12 +980,11 @@ server <- function(input, output, session) {
     list(df = dist_df, query = query, query_depth = query_depth)
   })
 
-  # shallow lineage threshold — taxa with fewer nodes than this get flagged
   SHALLOW_THRESHOLD <- 25L
 
   output$cr_result_ui <- renderUI({
     res <- cr_result()
-    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
 
     df          <- res$df
     query       <- res$query
@@ -1006,43 +1019,39 @@ server <- function(input, output, session) {
           depth_lbl
         ),
         tags$td(style = "padding:0.4rem 0.6rem; width:35%;",
-                div(style = sprintf(
-                  "height:10px; width:%d%%; background:%s; border-radius:2px;",
-                  bar_pct, bar_col), "")
+                div(style = sprintf("height:10px; width:%d%%; background:%s; border-radius:2px;", bar_pct, bar_col), "")
         )
       )
     })
 
     tagList(
       div(class = "result-box mb-3",
-          div(class = "result-label", "Closest relative to"),
+          div(class = "result-label", tr()("Closest relative to")),
           div(style = "font-family:'Playfair Display',serif; font-size:1.3rem; font-style:italic;", query),
-          div(class = "result-meta", if (!is.null(query_depth)) sprintf("lineage depth: %d", query_depth) else ""),
-          div(class = "result-label mt-2", "is"),
+          div(class = "result-meta", if (!is.null(query_depth)) tr()("lineage depth: %d", query_depth) else ""),
+          div(class = "result-label mt-2", tr()("is")),
           div(class = "result-mrca", closest$taxon),
           div(class = "result-meta",
-              sprintf("distance = %s", round(closest$distance, 6)),
-              if (!is.na(closest$depth)) sprintf(" | lineage depth: %d", closest$depth) else ""
+              tr()("distance = %s", round(closest$distance, 6)),
+              if (!is.na(closest$depth)) tr()(" | lineage depth: %d", closest$depth) else ""
           )
       ),
       if (any_shallow)
         div(
           style = "background:#fffbf0; border:1px solid #e0c97a; border-left:4px solid #8B6914; border-radius:3px; padding:0.7rem 1rem; margin-bottom:0.8rem; font-size:0.83rem; color:#5B4A2E;",
-          tags$b("⚠ Data quality notice: "),
-          "One or more taxa have a shallow lineage depth (< 25 nodes) in The Taxonomicon, ",
-          "meaning they are poorly resolved in the database. Their distances may be ",
-          "artificially large and rankings unreliable. Check the Lineage Explorer tab for details."
+          tags$b(tr()("⚠ Data quality notice: ")),
+          tr()("One or more taxa have a shallow lineage depth (< 25 nodes) in The Taxonomicon, meaning they are poorly resolved in the database. Their distances may be artificially large and rankings unreliable. Check the Lineage Explorer tab for details.")
         ),
       card(
-        card_header("All candidates ranked"),
+        card_header(tr()("All candidates ranked")),
         div(class = "p-0",
             tags$table(
               class = "table table-sm mb-0",
               style = "font-size:0.85rem;",
               tags$thead(tags$tr(
-                tags$th(style="padding:0.4rem 0.6rem;", "Taxon"),
-                tags$th(style="padding:0.4rem 0.6rem;", "Distance"),
-                tags$th(style="padding:0.4rem 0.6rem;", "Depth"),
+                tags$th(style="padding:0.4rem 0.6rem;", tr()("Taxon")),
+                tags$th(style="padding:0.4rem 0.6rem;", tr()("Distance")),
+                tags$th(style="padding:0.4rem 0.6rem;", tr()("Depth")),
                 tags$th(style="padding:0.4rem 0.6rem;", "")
               )),
               tags$tbody(rows)
@@ -1071,7 +1080,7 @@ server <- function(input, output, session) {
 
   output$le_result_ui <- renderUI({
     lin <- le_lineage()
-    if (is.null(lin)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(lin)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
 
     nodes <- lapply(seq_along(lin), function(i) {
       tagList(
@@ -1083,14 +1092,14 @@ server <- function(input, output, session) {
     mem <- tryCatch(le_member(), error = function(e) NULL)
     mem_ui <- if (!is.null(mem) && nchar(trimws(input$le_clade_check)) > 0) {
       col <- if (isTRUE(mem)) "#d4e8c2" else "#f5d0c8"
-      txt <- if (isTRUE(mem)) sprintf("%s IS a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
-      else sprintf("%s is NOT a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
+      txt <- if (isTRUE(mem)) tr()("%s IS a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
+      else tr()("%s is NOT a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
       div(style = sprintf("background:%s; border-radius:3px; padding:0.6rem 1rem; font-size:0.88rem; margin-top:0.8rem; font-style:italic;", col), txt)
     } else NULL
 
     tagList(
       card(
-        card_header(sprintf("Lineage of %s (%d nodes)", trimws(input$le_taxon), length(lin))),
+        card_header(tr()("Lineage of %s (%d nodes)", trimws(input$le_taxon), length(lin))),
         div(class = "p-3",
             div(style = "line-height:2.4;", nodes),
             mem_ui
@@ -1099,7 +1108,7 @@ server <- function(input, output, session) {
     )
   })
 
-  # ── Search Database (Server) ────────────────────────────────────────────────
+  # ── Search Database ─────────────────────────────────────────────────────────
 
   sd_result <- eventReactive(input$sd_run, {
     req(nchar(trimws(input$sd_taxon)) > 0)
@@ -1114,11 +1123,11 @@ server <- function(input, output, session) {
 
   output$sd_result_ui <- renderUI({
     res <- sd_result()
-    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", "No matches found."))
+    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", tr()("No matches found.")))
 
     tagList(
       card(
-        card_header(sprintf("Search results for '%s'", trimws(input$sd_taxon))),
+        card_header(tr()("Search results for '%s'", trimws(input$sd_taxon))),
         div(class = "p-2",
             renderDT({
               datatable(
@@ -1126,7 +1135,7 @@ server <- function(input, output, session) {
                 options = list(pageLength = 10, dom = "t", scrollX = TRUE),
                 rownames = FALSE,
                 selection = "none",
-                colnames = c("Numeric ID", "Accepted Name / Rank")
+                colnames = c(tr()("Numeric ID"), tr()("Accepted Name / Rank"))
               ) |>
                 formatStyle('id', fontWeight = 'bold', color = '#2D5016')
             })
@@ -1165,7 +1174,7 @@ server <- function(input, output, session) {
 
   output$cc_result_ui <- renderUI({
     res <- cc_result()
-    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
 
     n_found    <- sum(res, na.rm = TRUE)
     n_notfound <- sum(!res, na.rm = TRUE)
@@ -1179,17 +1188,17 @@ server <- function(input, output, session) {
       div(class = "result-box mb-3",
           fluidRow(
             column(6,
-                   div(class = "result-label", "Found in Taxonomicon"),
+                   div(class = "result-label", tr()("Found in Taxonomicon")),
                    div(class = "result-distance", style = "color:#2D5016;", n_found)
             ),
             column(6,
-                   div(class = "result-label", "Not found"),
+                   div(class = "result-label", tr()("Not found")),
                    div(class = "result-distance", style = "color:#8B3A1A;", n_notfound)
             )
           )
       ),
       card(
-        card_header("Coverage by taxon"),
+        card_header(tr()("Coverage by taxon")),
         div(class = "p-3", pills)
       )
     )
@@ -1226,30 +1235,27 @@ server <- function(input, output, session) {
 
   output$fc_result_ui <- renderUI({
     res <- fc_result()
-    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", "Results will appear here."))
+    if (is.null(res)) return(div(class="p-3 text-muted fst-italic", tr()("Results will appear here.")))
 
     excluded <- setdiff(res$all, res$kept)
-
-    make_tags <- function(taxa, cls) {
-      lapply(taxa, function(t) span(class = cls, t))
-    }
+    make_tags <- function(taxa, cls) lapply(taxa, function(t) span(class = cls, t))
 
     tagList(
       div(class = "result-box mb-3",
-          div(class = "result-label", "Clade filter"),
+          div(class = "result-label", tr()("Clade filter")),
           div(style = "font-family:'Playfair Display',serif; font-size:1.2rem; font-style:italic;",
               res$clade),
           div(class = "result-meta mt-1",
-              sprintf("%d of %d taxa retained", length(res$kept), length(res$all)))
+              tr()("%d of %d taxa retained", length(res$kept), length(res$all)))
       ),
       card(
-        card_header("Results"),
+        card_header(tr()("Results")),
         div(class = "p-3",
-            div(class = "result-label mb-1", sprintf("In %s (%d)", res$clade, length(res$kept))),
-            if (length(res$kept) > 0) div(make_tags(res$kept, "taxon-tag")) else div(class="text-muted fst-italic small", "none"),
+            div(class = "result-label mb-1", tr()("In %s (%d)", res$clade, length(res$kept))),
+            if (length(res$kept) > 0) div(make_tags(res$kept, "taxon-tag")) else div(class="text-muted fst-italic small", tr()("none")),
             hr(class = "section-divider"),
-            div(class = "result-label mb-1", sprintf("Not in %s (%d)", res$clade, length(excluded))),
-            if (length(excluded) > 0) div(make_tags(excluded, "taxon-tag")) else div(class="text-muted fst-italic small", "none")
+            div(class = "result-label mb-1", tr()("Not in %s (%d)", res$clade, length(excluded))),
+            if (length(excluded) > 0) div(make_tags(excluded, "taxon-tag")) else div(class="text-muted fst-italic small", tr()("none"))
         )
       )
     )
