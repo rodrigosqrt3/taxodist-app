@@ -6,7 +6,9 @@
 [![License: GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![R](https://img.shields.io/badge/built%20with-R-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
 
-A Shiny web application for computing taxonomic distances and exploring phylogenetic lineages, powered by the [taxodist](https://cran.r-project.org/web/packages/taxodist/index.html) R package and [The Taxonomicon](https://taxonomicon.taxonomy.nl/) database.
+A multilingual Shiny web application for computing taxonomic distances and exploring phylogenetic lineages, powered by the [taxodist](https://cran.r-project.org/web/packages/taxodist/index.html) R package and [The Taxonomicon](https://taxonomicon.taxonomy.nl/) database. 
+
+Available in English, Portuguese, Spanish, French, and German.
 
 ---
 
@@ -71,9 +73,11 @@ where MRCA is the Most Recent Common Ancestor of A and B in The Taxonomicon hier
 | Package | Role |
 |---------|------|
 | [`taxodist`](https://cran.r-project.org/web/packages/taxodist/index.html) | Taxonomic distance computation via The Taxonomicon |
-| [`shiny`](https://shiny.posit.co/) | Web application framework |
+|[`shiny`](https://shiny.posit.co/) | Web application framework |
+| [`shiny.i18n`](https://cran.r-project.org/package=shiny.i18n) | Internationalization / Multilingual support |
 | [`bslib`](https://rstudio.github.io/bslib/) | Bootstrap 5 theming |
-| [`ggplot2`](https://ggplot2.tidyverse.org/) | Dendrogram plotting |
+| [`ggplot2`](https://ggplot2.tidyverse.org/) | Dendrogram & Ordination plotting |
+| [`ggrepel`](https://cran.r-project.org/package=ggrepel) | Text label repulsion for PCoA plots |
 | [`ggdendro`](https://cran.r-project.org/package=ggdendro) | Dendrogram data extraction |
 | [`DT`](https://rstudio.github.io/DT/) | Interactive distance matrix table |
 
