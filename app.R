@@ -23,44 +23,45 @@ parse_taxa_input <- function(text) {
 
 app_theme <- bs_theme(
   version = 5,
-  bg            = "#F5F0E8",
-  fg            = "#1C1812",
-  primary       = "#2D5016",
-  secondary     = "#8B6914",
-  success       = "#3A7D2C",
-  info          = "#5B4A2E",
+  bg            = "#faf6ee",
+  fg            = "#3d2510",
+  primary       = "#5c3d1e",
+  secondary     = "#8b5e3c",
+  success       = "#6b7c3a",
+  info          = "#6b4c30",
   font_scale    = 0.95,
   base_font     = font_google("Lora"),
   heading_font  = font_google("Playfair Display"),
-  code_font     = font_google("JetBrains Mono")
+  code_font     = font_google("DM Mono")
 ) |>
   bs_add_rules("
     :root {
-      --parchment:   #F5F0E8;
-      --ink:         #1C1812;
-      --moss:        #2D5016;
-      --amber:       #8B6914;
-      --rust:        #8B3A1A;
-      --cream:       #FAF7F0;
-      --border:      #C8B99A;
-      --muted:       #7A6B55;
+      --bg:      #faf6ee;
+      --border:  #5c3d1e;
+      --branch:  #8b5e3c;
+      --tip:     #b8865a;
+      --ink:     #3d2510;
+      --muted:   #6b4c30;
+      --rule:    #d9c9b0;
+      --card-bg: #f3ede0;
+      --code-bg: #ede5d0;
     }
 
     body {
-      background-color: var(--parchment);
+      background-color: var(--bg);
       background-image:
-        radial-gradient(ellipse at 20% 10%, rgba(45,80,22,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 90%, rgba(139,105,20,0.07) 0%, transparent 55%);
+        radial-gradient(ellipse at 20% 10%, rgba(92,61,30,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 90%, rgba(139,94,60,0.06) 0%, transparent 55%);
       font-family: 'Lora', Georgia, serif;
     }
 
     /* ── Header ── */
     .app-header {
-      background: var(--moss);
-      background-image: linear-gradient(135deg, #1a3009 0%, #2D5016 50%, #3d6b1e 100%);
-      color: #F5F0E8;
+      background: var(--border);
+      background-image: linear-gradient(135deg, #3a2410 0%, #5c3d1e 50%, #6e4a25 100%);
+      color: #faf6ee;
       padding: 2rem 2.5rem 1.6rem;
-      border-bottom: 3px solid var(--amber);
+      border-bottom: 3px solid var(--tip);
       position: relative;
     }
     .app-header::before {
@@ -78,12 +79,12 @@ app_theme <- bs_theme(
       font-weight: 700;
       letter-spacing: 0.01em;
       margin: 0;
-      color: #F5F0E8;
+      color: #faf6ee;
       position: relative;
     }
     .app-header .subtitle {
       font-size: 0.85rem;
-      color: rgba(245,240,232,0.72);
+      color: rgba(250,246,238,0.72);
       margin-top: 0.3rem;
       letter-spacing: 0.05em;
       font-style: italic;
@@ -91,10 +92,10 @@ app_theme <- bs_theme(
     }
     .app-header .badge-pkg {
       display: inline-block;
-      background: var(--amber);
-      color: #1C1812;
+      background: var(--tip);
+      color: #3d2510;
       font-size: 0.72rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-style: normal;
       padding: 0.15rem 0.55rem;
       border-radius: 2px;
@@ -105,8 +106,8 @@ app_theme <- bs_theme(
 
     /* ── Nav tabs ── */
     .nav-tabs {
-      border-bottom: 2px solid var(--border);
-      background: var(--cream);
+      border-bottom: 2px solid var(--rule);
+      background: var(--card-bg);
       padding: 0 1.5rem;
     }
     .nav-tabs .nav-link {
@@ -119,44 +120,44 @@ app_theme <- bs_theme(
       border-radius: 0;
       transition: all 0.2s;
     }
-    .nav-tabs .nav-link:hover { color: var(--moss); }
+    .nav-tabs .nav-link:hover { color: var(--border); }
     .nav-tabs .nav-link.active {
-      color: var(--moss);
-      border-bottom-color: var(--moss);
+      color: var(--border);
+      border-bottom-color: var(--border);
       background: transparent;
       font-weight: 600;
     }
 
     /* ── Cards ── */
     .card {
-      border: 1px solid var(--border);
+      border: 1px solid var(--rule);
       border-radius: 4px;
-      background: var(--cream);
-      box-shadow: 0 1px 4px rgba(28,24,18,0.07);
+      background: var(--card-bg);
+      box-shadow: 0 1px 4px rgba(61,37,16,0.07);
     }
     .card-header {
       background: transparent;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--rule);
       font-family: 'Playfair Display', serif;
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--moss);
+      color: var(--border);
       padding: 0.7rem 1.1rem;
       letter-spacing: 0.02em;
     }
 
     /* ── Inputs ── */
     .form-control, .form-select {
-      background: #FEFCF8;
-      border: 1px solid var(--border);
+      background: var(--bg);
+      border: 1px solid var(--rule);
       border-radius: 3px;
       font-family: 'Lora', Georgia, serif;
       font-size: 0.88rem;
       color: var(--ink);
     }
     .form-control:focus, .form-select:focus {
-      border-color: var(--moss);
-      box-shadow: 0 0 0 2px rgba(45,80,22,0.15);
+      border-color: var(--border);
+      box-shadow: 0 0 0 2px rgba(92,61,30,0.15);
     }
     .form-label {
       font-size: 0.82rem;
@@ -169,24 +170,24 @@ app_theme <- bs_theme(
 
     /* ── Buttons ── */
     .btn-primary {
-      background: var(--moss);
-      border-color: var(--moss);
+      background: var(--border);
+      border-color: var(--border);
       font-family: 'Lora', serif;
       letter-spacing: 0.04em;
       border-radius: 3px;
     }
-    .btn-primary:hover { background: #1a3009; border-color: #1a3009; }
+    .btn-primary:hover { background: #3a2410; border-color: #3a2410; }
     .btn-outline-secondary {
-      border-color: var(--border);
+      border-color: var(--rule);
       color: var(--muted);
       font-size: 0.82rem;
     }
 
     /* ── Result box ── */
     .result-box {
-      background: #FEFCF8;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--moss);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--border);
       border-radius: 3px;
       padding: 1.1rem 1.3rem;
       font-family: 'Lora', Georgia, serif;
@@ -194,7 +195,7 @@ app_theme <- bs_theme(
     .result-distance {
       font-family: 'Playfair Display', serif;
       font-size: 2.4rem;
-      color: var(--moss);
+      color: var(--border);
       font-weight: 700;
       line-height: 1;
     }
@@ -206,7 +207,7 @@ app_theme <- bs_theme(
     }
     .result-mrca {
       font-style: italic;
-      color: var(--amber);
+      color: var(--branch);
       font-size: 1.05rem;
     }
     .result-meta {
@@ -217,8 +218,8 @@ app_theme <- bs_theme(
     /* ── Lineage display ── */
     .lineage-node {
       display: inline-block;
-      background: var(--parchment);
-      border: 1px solid var(--border);
+      background: var(--bg);
+      border: 1px solid var(--rule);
       border-radius: 2px;
       padding: 0.1rem 0.5rem;
       margin: 0.15rem 0.1rem;
@@ -228,75 +229,75 @@ app_theme <- bs_theme(
       color: var(--ink);
     }
     .lineage-node.shared {
-      background: #d4e8c2;
-      border-color: var(--moss);
-      color: var(--moss);
+      background: #e8dcc8;
+      border-color: var(--branch);
+      color: var(--border);
       font-weight: 600;
     }
     .lineage-node.mrca {
-      background: var(--moss);
-      color: #F5F0E8;
-      border-color: var(--moss);
+      background: var(--border);
+      color: #faf6ee;
+      border-color: var(--border);
     }
     .lineage-arrow {
-      color: var(--border);
+      color: var(--rule);
       font-size: 0.75rem;
       margin: 0 0.05rem;
     }
 
     /* ── Coverage pills ── */
-    .cov-found    { background:#d4e8c2; color:#1a3009; }
-    .cov-notfound { background:#f5d0c8; color:#6b1a0a; }
+    .cov-found    { background: #e8dcc8; color: #3a2410; }
+    .cov-notfound { background: #f5d0c8; color: #6b1a0a; }
     .cov-pill {
-      display:inline-block;
-      border-radius:2px;
-      padding:0.2rem 0.6rem;
-      font-size:0.8rem;
-      font-family:'JetBrains Mono',monospace;
-      margin:0.2rem;
+      display: inline-block;
+      border-radius: 2px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.8rem;
+      font-family: 'DM Mono', monospace;
+      margin: 0.2rem;
     }
     .lineage-node.descending {
-      background: #f5e6d0;
-      border-color: var(--amber);
-      color: var(--amber);
+      background: #f0e4d0;
+      border-color: var(--tip);
+      color: var(--branch);
     }
 
     /* ── Misc ── */
     .section-divider {
       border: none;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--rule);
       margin: 1.2rem 0;
     }
     .taxon-tag {
-      display:inline-block;
-      background:var(--parchment);
-      border:1px solid var(--border);
-      border-radius:2px;
-      padding:0.1rem 0.45rem;
-      font-size:0.78rem;
-      font-style:italic;
-      margin:0.1rem;
+      display: inline-block;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.78rem;
+      font-style: italic;
+      margin: 0.1rem;
     }
-    .spinner-border { color: var(--moss) !important; }
+    .spinner-border { color: var(--border) !important; }
     .shiny-notification { font-family: 'Lora', serif; }
 
     /* ── Loading overlay ── */
     #loading_overlay {
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(245,240,232,0.65);
-      z-index:9999;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      gap:0.8rem;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(250,246,238,0.65);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.8rem;
     }
-    #loading_overlay.show { display:flex; }
+    #loading_overlay.show { display: flex; }
     .loading-text {
-      font-family:'Playfair Display',serif;
-      color:var(--moss);
-      font-size:1rem;
+      font-family: 'Playfair Display', serif;
+      color: var(--border);
+      font-size: 1rem;
     }
   ")
 
@@ -885,12 +886,19 @@ server <- function(input, output, session) {
     label_width <- max_chars * max_dist * 0.018
 
     ggplot() +
-      geom_segment(data = seg_list, aes(x = x, xend = xend, y = y, yend = yend), colour = "#2D5016", linewidth = 1.1) +
-      geom_text(data = tip_df, aes(x = x, label = label), y = -label_gap, hjust = 0, vjust = 0.5, size = 5.5, family = "serif", fontface = "italic", colour = "#1C1812") +
-      geom_text(data = node_df, aes(x = x, y = y, label = mrca), hjust = 0.5, vjust = -0.65, size = 6, family = "serif", fontface = "italic", colour = "#8B6914") +
-      geom_point(data = node_df, aes(x = x, y = y), colour = "#8B6914", fill = "#FAF7F0", shape = 21, size = 3.5, stroke = 1.4) +
+      geom_segment(data = seg_list, aes(x = x, xend = xend, y = y, yend = yend),
+                   colour = "#5c3d1e", linewidth = 1.1) +
+      geom_text(data = tip_df, aes(x = x, label = label),
+                y = -label_gap, hjust = 0, vjust = 0.5, size = 5.5,
+                family = "serif", fontface = "italic", colour = "#3d2510") +
+      geom_text(data = node_df, aes(x = x, y = y, label = mrca),
+                hjust = 0.5, vjust = -0.65, size = 6,
+                family = "serif", fontface = "italic", colour = "#8b5e3c") +
+      geom_point(data = node_df, aes(x = x, y = y),
+                 colour = "#8b5e3c", fill = "#f3ede0", shape = 21, size = 3.5, stroke = 1.4) +
       coord_flip(clip = "off") +
-      scale_y_reverse(limits = c(max_dist * 1.04, -(label_gap + label_width)), expand = expansion(mult = c(0.05, 0.7))) +
+      scale_y_reverse(limits = c(max_dist * 1.04, -(label_gap + label_width)),
+                      expand = expansion(mult = c(0.05, 0.7))) +
       scale_x_continuous(expand = expansion(mult = 0.05)) +
       labs(x = NULL, y = NULL) +
       theme_minimal(base_family = "serif") +
@@ -898,10 +906,10 @@ server <- function(input, output, session) {
         axis.text       = element_blank(),
         axis.ticks      = element_blank(),
         panel.grid      = element_blank(),
-        plot.background = element_rect(fill = "#FAF7F0", colour = NA),
+        plot.background = element_rect(fill = "#f3ede0", colour = NA),
         plot.margin     = margin(10, 10, 10, 10)
       )
-  }, bg = "#FAF7F0")
+  }, bg = "#f3ede0")
 
   output$dm_table <- renderDT({
     dm <- dm_result()
@@ -913,7 +921,8 @@ server <- function(input, output, session) {
               class = "compact hover"
     ) |>
       formatStyle(columns = colnames(mat_fmt),
-                  background = styleInterval(c(0.05, 0.15, 0.3), c("#d4e8c2", "#eaf3d9", "#fdf6e3", "#f8e8d8"))
+                  background = styleInterval(c(0.05, 0.15, 0.3),
+                                             c("#e8dcc8", "#f0e8d8", "#faf6ee", "#f5e6d8"))
       )
   })
 
@@ -929,24 +938,25 @@ server <- function(input, output, session) {
     gof_pct <- round(ord$GOF[1] * 100, 1)
 
     ggplot(df, aes(x = PC1, y = PC2, label = Taxon)) +
-      geom_hline(yintercept = 0, linetype = "dashed", color = "#C8B99A", linewidth = 0.5) +
-      geom_vline(xintercept = 0, linetype = "dashed", color = "#C8B99A", linewidth = 0.5) +
-      geom_point(color = "#8B6914", fill = "#FAF7F0", shape = 21, size = 3.5, stroke = 1.4) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "#d9c9b0", linewidth = 0.5) +
+      geom_vline(xintercept = 0, linetype = "dashed", color = "#d9c9b0", linewidth = 0.5) +
+      geom_point(color = "#8b5e3c", fill = "#f3ede0", shape = 21, size = 3.5, stroke = 1.4) +
       geom_text_repel(
-        family = "serif", fontface = "italic", color = "#1C1812", size = 5,
-        box.padding = 0.5, point.padding = 0.3, segment.color = "#C8B99A", segment.alpha = 0.6
+        family = "serif", fontface = "italic", color = "#3d2510", size = 5,
+        box.padding = 0.5, point.padding = 0.3,
+        segment.color = "#d9c9b0", segment.alpha = 0.6
       ) +
       labs(x = tr()("Coordinate 1"), y = tr()("Coordinate 2"),
            subtitle = tr()("Goodness-of-fit: %s%%", gof_pct)) +
       theme_minimal(base_family = "serif") +
       theme(
-        panel.grid.major = element_line(color = "#EAE3D5"),
+        panel.grid.major = element_line(color = "#e8dcc8"),
         panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = "#FAF7F0", colour = NA),
-        plot.margin = margin(10, 20, 10, 10),
-        plot.subtitle = element_text(color = "#7A6B55", face = "italic")
+        plot.background  = element_rect(fill = "#f3ede0", colour = NA),
+        plot.margin      = margin(10, 20, 10, 10),
+        plot.subtitle    = element_text(color = "#6b4c30", face = "italic")
       )
-  }, bg = "#FAF7F0")
+  }, bg = "#f3ede0")
 
   # ── Closest Relative ────────────────────────────────────────────────────────
 
@@ -999,23 +1009,23 @@ server <- function(input, output, session) {
     rows <- lapply(seq_len(nrow(df)), function(i) {
       row      <- df[i, ]
       bar_pct  <- if (is.na(row$distance)) 0L else round(100 * row$distance / max_dist)
-      bar_col  <- if (i == 1L) "#2D5016" else "#8B6914"
+      bar_col  <- if (i == 1L) "#5c3d1e" else "#8b5e3c"
       is_shallow <- !is.na(row$depth) && row$depth < SHALLOW_THRESHOLD
       depth_lbl  <- if (is.na(row$depth)) "?" else as.character(row$depth)
       warn_icon  <- if (is_shallow) " ⚠" else ""
 
       tags$tr(
-        style = if (is_shallow) "background:#fffbf0;" else "",
+        style = if (is_shallow) "background:#faf6ee;" else "",
         tags$td(
           style = "font-style:italic; padding:0.4rem 0.6rem;",
-          row$taxon, tags$span(style="color:#8B6914; font-style:normal;", warn_icon)
+          row$taxon, tags$span(style="color:#8b5e3c; font-style:normal;", warn_icon)
         ),
         tags$td(
-          style = "padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.82rem;",
+          style = "padding:0.4rem 0.6rem; font-family:'DM Mono',monospace; font-size:0.82rem;",
           if (is.na(row$distance)) "NA" else round(row$distance, 6)
         ),
         tags$td(
-          style = "padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:#7A6B55;",
+          style = "padding:0.4rem 0.6rem; font-family:'DM Mono',monospace; font-size:0.78rem; color:#6b4c30;",
           depth_lbl
         ),
         tags$td(style = "padding:0.4rem 0.6rem; width:35%;",
@@ -1038,7 +1048,7 @@ server <- function(input, output, session) {
       ),
       if (any_shallow)
         div(
-          style = "background:#fffbf0; border:1px solid #e0c97a; border-left:4px solid #8B6914; border-radius:3px; padding:0.7rem 1rem; margin-bottom:0.8rem; font-size:0.83rem; color:#5B4A2E;",
+          style = "background:#faf6ee; border:1px solid #d9c9b0; border-left:4px solid #8b5e3c; border-radius:3px; padding:0.7rem 1rem; margin-bottom:0.8rem; font-size:0.83rem; color:#6b4c30;",
           tags$b(tr()("⚠ Data quality notice: ")),
           tr()("One or more taxa have a shallow lineage depth (< 25 nodes) in The Taxonomicon, meaning they are poorly resolved in the database. Their distances may be artificially large and rankings unreliable. Check the Lineage Explorer tab for details.")
         ),
@@ -1091,7 +1101,7 @@ server <- function(input, output, session) {
 
     mem <- tryCatch(le_member(), error = function(e) NULL)
     mem_ui <- if (!is.null(mem) && nchar(trimws(input$le_clade_check)) > 0) {
-      col <- if (isTRUE(mem)) "#d4e8c2" else "#f5d0c8"
+      col <- if (isTRUE(mem)) "#e8dcc8" else "#f5d0c8"
       txt <- if (isTRUE(mem)) tr()("%s IS a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
       else tr()("%s is NOT a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
       div(style = sprintf("background:%s; border-radius:3px; padding:0.6rem 1rem; font-size:0.88rem; margin-top:0.8rem; font-style:italic;", col), txt)
@@ -1137,7 +1147,7 @@ server <- function(input, output, session) {
                 selection = "none",
                 colnames = c(tr()("Numeric ID"), tr()("Accepted Name / Rank"))
               ) |>
-                formatStyle('id', fontWeight = 'bold', color = '#2D5016')
+                formatStyle('id', fontWeight = 'bold', color = '#5c3d1e')
             })
         )
       )
@@ -1189,7 +1199,7 @@ server <- function(input, output, session) {
           fluidRow(
             column(6,
                    div(class = "result-label", tr()("Found in Taxonomicon")),
-                   div(class = "result-distance", style = "color:#2D5016;", n_found)
+                   div(class = "result-distance", style = "color:#5c3d1e;", n_found)
             ),
             column(6,
                    div(class = "result-label", tr()("Not found")),
