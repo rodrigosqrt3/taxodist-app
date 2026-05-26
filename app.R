@@ -306,17 +306,31 @@ app_theme <- bs_theme(
 ui <- fluidPage(
   theme = app_theme,
   shiny.i18n::usei18n(i18n),
-  tags$head(
-    tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
-    tags$style(HTML("
-    textarea { resize: vertical; }
-    .dataTables_wrapper { font-size:0.83rem; font-family:'Lora',serif; }
 
-    .selectize-input,
-    .selectize-dropdown {
-      font-family: 'Segoe UI Emoji', sans-serif;
-    }
-  "))
+  tags$head(
+
+    tags$meta(
+      name = "google-site-verification",
+      content = "_sq1opIeTo7uYCMfevdGTqez7DmT-iVVFboDbPylWx8"
+    ),
+
+    tags$link(
+      rel = "preconnect",
+      href = "https://fonts.googleapis.com"
+    ),
+
+    tags$style(HTML("
+      textarea { resize: vertical; }
+      .dataTables_wrapper {
+        font-size:0.83rem;
+        font-family:'Lora',serif;
+      }
+
+      .selectize-input,
+      .selectize-dropdown {
+        font-family: 'Segoe UI Emoji', sans-serif;
+      }
+    "))
   ),
 
   # Loading overlay
