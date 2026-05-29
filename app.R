@@ -6,6 +6,9 @@ library(ggrepel)
 library(DT)
 library(shiny.i18n)
 
+load("example_data.rda")
+load_cache("example_cache.rds")
+
 # ── Setup i18n ────────────────────────────────────────────────────────────────
 i18n <- Translator$new(translation_json_path = "translation.json")
 i18n$set_translation_language("en")
