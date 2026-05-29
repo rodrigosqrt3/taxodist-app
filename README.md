@@ -95,5 +95,4 @@ citation("taxodist")
 
 ## Author
 
-Developed by Rodrigo Fonseca Villa.
 Feedback and contributions are welcome. Feel free to [open an issue](https://github.com/rodrigosqrt3/taxodist_app/issues) or a pull request.
