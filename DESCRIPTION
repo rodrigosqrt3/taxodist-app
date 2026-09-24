@@ -1,11 +1,22 @@
 Package: taxodist_app
 Type: Shiny
 Title: Taxodist Explorer
-Depends: R (>= 4.0)
+Version: 0.8.0
+Authors@R: person("Rodrigo Fonseca", "Villa",
+    email = "rodrigo03.villa@gmail.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0009-0005-2938-2270"))
+Description: Multilingual Shiny interface for taxonomic distance calculation,
+    lineage inspection, database searching, coverage assessment, and clade
+    filtering using the taxodist package and The Taxonomicon.
+License: GPL (>= 3)
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
 Imports:
     shiny,
     bslib,
-    taxodist,
+    taxodist (>= 0.8.0),
     ggplot2,
     ggrepel,
     DT,

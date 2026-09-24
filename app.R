@@ -109,6 +109,24 @@ app_theme <- bs_theme(
       --rule:    #d9c9b0;
       --card-bg: #f3ede0;
       --code-bg: #ede5d0;
+      --lineage-bg:          #fbf8f2;
+      --lineage-text:        #3d2510;
+      --lineage-shared-bg:   #e5d5bc;
+      --lineage-shared-text: #40270f;
+      --lineage-mrca-bg:     #5c3d1e;
+      --lineage-mrca-text:   #fffaf3;
+      --lineage-desc-bg:     #f0e4d0;
+      --lineage-desc-text:   #5b3b20;
+      --success-bg:          #e3eddc;
+      --success-text:        #28451f;
+      --danger-bg:           #f5d8d1;
+      --danger-text:         #6b1a0a;
+      --notice-bg:           #f7f0e5;
+      --notice-text:         #5a462f;
+      --overlay-bg:          rgba(250,246,238,0.72);
+      --primary-text:        #fffaf3;
+      --primary-hover-bg:    #3a2410;
+      --primary-hover-text:  #fffaf3;
       --bs-body-bg:       var(--bg);
       --bs-body-color:    var(--ink);
       --bs-card-bg:       var(--card-bg);
@@ -126,6 +144,24 @@ app_theme <- bs_theme(
       --rule:    #3d362e;
       --card-bg: #26211c;
       --code-bg: #2d2620;
+      --lineage-bg:          #211d18;
+      --lineage-text:        #f4f1ea;
+      --lineage-shared-bg:   #493726;
+      --lineage-shared-text: #f6eadc;
+      --lineage-mrca-bg:     #d8b38c;
+      --lineage-mrca-text:   #24160a;
+      --lineage-desc-bg:     #382b20;
+      --lineage-desc-text:   #eed7be;
+      --success-bg:          #2d412b;
+      --success-text:        #dcebd8;
+      --danger-bg:           #4b2925;
+      --danger-text:         #f5d4cc;
+      --notice-bg:           #33291f;
+      --notice-text:         #e3d3bf;
+      --overlay-bg:          rgba(20,18,16,0.78);
+      --primary-text:        #24160a;
+      --primary-hover-bg:    #c2946d;
+      --primary-hover-text:  #1a120b;
 
       --bs-body-bg:       var(--bg);
       --bs-body-color:    var(--ink);
@@ -189,6 +225,75 @@ app_theme <- bs_theme(
       margin-left: 0.5rem;
       vertical-align: middle;
       position: relative;
+    }
+    .header-controls {
+      position: absolute;
+      right: 25px;
+      top: 25px;
+      z-index: 1000;
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      height: 38px;
+    }
+    .theme-control,
+    .language-control {
+      height: 38px;
+      min-height: 38px;
+    }
+    .theme-control {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+    .language-control {
+      width: 150px;
+      flex: 0 0 150px;
+    }
+    .header-controls .shiny-input-container,
+    .header-controls .form-group,
+    .header-controls .form-check,
+    .header-controls .selectize-control {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    .header-controls .bslib-input-dark-mode,
+    .header-controls .form-check {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+    }
+    .header-controls .selectize-input {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+      padding-top: 0.45rem;
+      padding-bottom: 0.45rem;
+      background: var(--bg) !important;
+      color: var(--ink) !important;
+      border-color: var(--rule) !important;
+    }
+    .header-controls .selectize-control,
+    .header-controls .selectize-input {
+      height: 38px;
+    }
+    .header-controls .selectize-input > *,
+    .header-controls .selectize-input input {
+      color: var(--ink) !important;
+    }
+    .header-controls .selectize-dropdown {
+      background: var(--card-bg) !important;
+      color: var(--ink) !important;
+      border-color: var(--rule) !important;
+    }
+    .header-controls .selectize-dropdown .option {
+      background: transparent;
+      color: var(--ink) !important;
+    }
+    .header-controls .selectize-dropdown .option.active,
+    .header-controls .selectize-dropdown .option.selected {
+      background: var(--lineage-shared-bg) !important;
+      color: var(--lineage-shared-text) !important;
     }
 
     /* ── Nav tabs ── */
@@ -263,11 +368,17 @@ app_theme <- bs_theme(
     .btn-primary {
       background: var(--border);
       border-color: var(--border);
+      color: var(--primary-text);
       font-family: 'Lora', serif;
       letter-spacing: 0.04em;
       border-radius: 3px;
     }
-    .btn-primary:hover { background: #3a2410; border-color: #3a2410; }
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: var(--primary-hover-bg);
+      border-color: var(--primary-hover-bg);
+      color: var(--primary-hover-text);
+    }
     .btn-outline-secondary {
       border-color: var(--rule);
       color: var(--muted);
@@ -309,7 +420,7 @@ app_theme <- bs_theme(
     /* ── Lineage display ── */
     .lineage-node {
       display: inline-block;
-      background: var(--bg);
+      background: var(--lineage-bg);
       border: 1px solid var(--rule);
       border-radius: 2px;
       padding: 0.1rem 0.5rem;
@@ -317,18 +428,19 @@ app_theme <- bs_theme(
       font-size: 0.8rem;
       font-family: 'Lora', serif;
       font-style: italic;
-      color: var(--ink);
+      color: var(--lineage-text);
     }
     .lineage-node.shared {
-      background: #e8dcc8;
+      background: var(--lineage-shared-bg);
       border-color: var(--branch);
-      color: var(--border);
+      color: var(--lineage-shared-text);
       font-weight: 600;
     }
     .lineage-node.mrca {
-      background: var(--border);
-      color: #faf6ee;
-      border-color: var(--border);
+      background: var(--lineage-mrca-bg);
+      color: var(--lineage-mrca-text);
+      border-color: var(--lineage-mrca-bg);
+      font-weight: 700;
     }
     .lineage-arrow {
       color: var(--rule);
@@ -337,8 +449,8 @@ app_theme <- bs_theme(
     }
 
     /* ── Coverage pills ── */
-    .cov-found    { background: #e8dcc8; color: #3a2410; }
-    .cov-notfound { background: #f5d0c8; color: #6b1a0a; }
+    .cov-found    { background: var(--success-bg); color: var(--success-text); }
+    .cov-notfound { background: var(--danger-bg); color: var(--danger-text); }
     .cov-pill {
       display: inline-block;
       border-radius: 2px;
@@ -348,10 +460,45 @@ app_theme <- bs_theme(
       margin: 0.2rem;
     }
     .lineage-node.descending {
-      background: #f0e4d0;
+      background: var(--lineage-desc-bg);
       border-color: var(--tip);
-      color: var(--branch);
+      color: var(--lineage-desc-text);
     }
+
+    .membership-result {
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 0.6rem 1rem;
+      margin-top: 0.8rem;
+      font-size: 0.88rem;
+      font-style: italic;
+    }
+    .membership-result.member {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+    .membership-result.non-member {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+
+    .warning-icon { color: var(--branch); font-style: normal; }
+    .depth-value { color: var(--muted); }
+    .table > tbody > tr.shallow-lineage-row > * {
+      background-color: var(--notice-bg);
+    }
+    .data-quality-notice {
+      background: var(--notice-bg);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--branch);
+      border-radius: 3px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.83rem;
+      color: var(--notice-text);
+    }
+    .coverage-found-count { color: var(--success-text); }
+    .coverage-missing-count { color: var(--danger-text); }
 
     /* ── Misc ── */
     .section-divider {
@@ -386,6 +533,8 @@ app_theme <- bs_theme(
       border: 2px solid var(--card-bg);
       background: var(--branch);
     }
+    .distance-marker.closest { background: var(--border); }
+    .distance-marker.candidate { background: var(--branch); }
     .method-note {
       margin: 0 1.5rem 1.5rem;
       padding: 0.75rem 1rem;
@@ -404,7 +553,7 @@ app_theme <- bs_theme(
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(250,246,238,0.65);
+      background: var(--overlay-bg);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -416,6 +565,10 @@ app_theme <- bs_theme(
       font-family: 'Playfair Display', serif;
       color: var(--border);
       font-size: 1rem;
+    }
+    :where(button, input, select, textarea, a):focus-visible {
+      outline: 3px solid var(--tip);
+      outline-offset: 2px;
     }
     @media (max-width: 768px) {
       .app-header {
@@ -429,6 +582,11 @@ app_theme <- bs_theme(
       }
       .nav-tabs .nav-link {
         padding: 0.7rem 0.85rem;
+      }
+      .header-controls {
+        top: 18px;
+        right: 18px;
+        gap: 0.55rem;
       }
     }
   ")
@@ -493,17 +651,21 @@ ui <- fluidPage(
 
   # Header
   div(class = "app-header mb-0",
-      div(style = "position: absolute; right: 25px; top: 25px; z-index: 1000; display: flex; gap: 15px; align-items: center;",
-          input_dark_mode(id = "dark_mode_toggle"),
-          selectInput("selected_language", NULL,
-                      choices = c(
-                        "English"   = "en",
-                        "Português" = "pt",
-                        "Español"   = "es",
-                        "Français"  = "fr",
-                        "Deutsch"   = "de"
-                      ),
-                      width = "150px")
+      div(class = "header-controls",
+          div(class = "theme-control",
+              input_dark_mode(id = "dark_mode_toggle")
+          ),
+          div(class = "language-control",
+              selectInput("selected_language", NULL,
+                          choices = c(
+                            "English"   = "en",
+                            "Português" = "pt",
+                            "Español"   = "es",
+                            "Français"  = "fr",
+                            "Deutsch"   = "de"
+                          ),
+                          width = "150px")
+          )
       ),
       h1(HTML(paste0('taxodist <span class=\"badge-pkg\">v', packageVersion("taxodist"), '</span>'))),
       div(class = "subtitle",
@@ -1296,23 +1458,23 @@ server <- function(input, output, session) {
       marker_pct <- if (is.na(row$distance)) 0L else if (is.infinite(row$distance)) 100L else
         round(100 * row$distance / max_dist)
       marker_pct <- min(100L, max(0L, marker_pct))
-      marker_col <- if (i == 1L) "#5c3d1e" else "#8b5e3c"
       is_shallow <- !is.na(row$depth) && row$depth < SHALLOW_LINEAGE_GUIDE
       depth_lbl  <- if (is.na(row$depth)) "?" else as.character(row$depth)
       warn_icon  <- if (is_shallow) " ⚠" else ""
 
       tags$tr(
-        style = if (is_shallow) "background:#faf6ee;" else "",
+        class = if (is_shallow) "shallow-lineage-row" else NULL,
         tags$td(
           style = "font-style:italic; padding:0.4rem 0.6rem;",
-          row$taxon, tags$span(style="color:#8b5e3c; font-style:normal;", warn_icon)
+          row$taxon, tags$span(class = "warning-icon", warn_icon)
         ),
         tags$td(
           style = "padding:0.4rem 0.6rem; font-family:'DM Mono',monospace; font-size:0.82rem;",
           if (is.na(row$distance)) "NA" else if (is.infinite(row$distance)) "∞" else round(row$distance, 6)
         ),
         tags$td(
-          style = "padding:0.4rem 0.6rem; font-family:'DM Mono',monospace; font-size:0.78rem; color:#6b4c30;",
+          class = "depth-value",
+          style = "padding:0.4rem 0.6rem; font-family:'DM Mono',monospace; font-size:0.78rem;",
           depth_lbl
         ),
         tags$td(style = "padding:0.4rem 0.9rem; width:35%;",
@@ -1320,8 +1482,8 @@ server <- function(input, output, session) {
                   class = "distance-track",
                   title = tr()("Left is closer; right is more distant."),
                   div(
-                    class = "distance-marker",
-                    style = sprintf("left:%d%%; background:%s;", marker_pct, marker_col)
+                    class = paste("distance-marker", if (i == 1L) "closest" else "candidate"),
+                    style = sprintf("left:%d%%;", marker_pct)
                   )
                 )
         )
@@ -1342,7 +1504,7 @@ server <- function(input, output, session) {
       ),
       if (any_shallow)
         div(
-          style = "background:#faf6ee; border:1px solid #d9c9b0; border-left:4px solid #8b5e3c; border-radius:3px; padding:0.7rem 1rem; margin-bottom:0.8rem; font-size:0.83rem; color:#6b4c30;",
+          class = "data-quality-notice",
           tags$b(tr()("⚠ Data quality notice: ")),
           tr()("One or more taxa have relatively few hierarchy nodes in The Taxonomicon. Their distances may therefore be coarser and should be interpreted with attention to source resolution.")
         ),
@@ -1395,10 +1557,9 @@ server <- function(input, output, session) {
 
     mem <- tryCatch(le_member(), error = function(e) NULL)
     mem_ui <- if (!is.null(mem) && nchar(trimws(input$le_clade_check)) > 0) {
-      col <- if (isTRUE(mem)) "#e8dcc8" else "#f5d0c8"
       txt <- if (isTRUE(mem)) tr()("%s IS a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
       else tr()("%s is NOT a member of %s", trimws(input$le_taxon), trimws(input$le_clade_check))
-      div(style = sprintf("background:%s; border-radius:3px; padding:0.6rem 1rem; font-size:0.88rem; margin-top:0.8rem; font-style:italic;", col), txt)
+      div(class = paste("membership-result", if (isTRUE(mem)) "member" else "non-member"), txt)
     } else NULL
 
     tagList(
@@ -1498,11 +1659,11 @@ server <- function(input, output, session) {
           fluidRow(
             column(6,
                    div(class = "result-label", tr()("Found in Taxonomicon")),
-                   div(class = "result-distance", style = "color:#5c3d1e;", n_found)
+                   div(class = "result-distance coverage-found-count", n_found)
             ),
             column(6,
                    div(class = "result-label", tr()("Not found")),
-                   div(class = "result-distance", style = "color:#8B3A1A;", n_notfound)
+                   div(class = "result-distance coverage-missing-count", n_notfound)
             )
           )
       ),
