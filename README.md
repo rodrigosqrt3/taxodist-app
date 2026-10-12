@@ -20,17 +20,26 @@ Available in English, Portuguese, Spanish, French, and German.
 
 ## Features
 
-The app exposes the main functions of the `taxodist` package through an interactive interface with seven tabs:
+The app exposes the main functions of the `taxodist` package through an interactive interface with eight tabs:
 
 | Tab | Description |
 |-----|-------------|
 | **Pairwise Distance** | Compute the taxonomic distance between any two taxa, with full lineage comparison and MRCA highlighted |
-| **Distance Matrix** | Build a pairwise distance matrix from pasted names or a CSV file, inspect the table, and explore average-linkage clustering and PCoA |
+| **Distance Matrix** | Build a pairwise distance matrix from pasted names or a CSV file, inspect the table, and explore the classification tree (named clades at every split) and PCoA |
+| **Between Groups** | Compute only the distances from one group of taxa to another (e.g. community members to reference taxa) |
 | **Closest Relative** | Given a query taxon and a set of candidates, rank them by taxonomic proximity |
-| **Lineage Explorer** | Retrieve the full lineage of any taxon and check clade membership |
-| **Search Database** | Search The Taxonomicon for candidate records and numeric identifiers |
-| **Coverage Check** | Verify which taxa in a list are present in The Taxonomicon database |
+| **Lineage Explorer** | Retrieve the full lineage of any taxon, check clade membership, and click any node to explore that clade |
+| **Search Database** | Search The Taxonomicon for candidate records and numeric identifiers; select a row to open its lineage |
+| **Coverage Check** | Verify which taxa in a list are present in The Taxonomicon database (taxa that could not be checked because the server was unreachable are reported separately) |
 | **Filter by Clade** | Filter a list of taxa, retaining only those belonging to a given clade |
+
+Results can be downloaded (matrices and tables as CSV, plots as PNG, the
+classification tree as Newick, and a portable `taxodist` analysis bundle as
+JSON). Pairwise comparisons, lineages, and matrices can be shared with a link
+that reopens the same query, for example
+`?tab=pairwise&a=Tyrannosaurus&b=Velociraptor` or `?tab=lineage&taxon=Homo`.
+Names that are not found, and notes from The Taxonomicon such as the entry
+chosen for an ambiguous name, are shown in the interface.
 
 The matrix and coverage tabs accept comma- or semicolon-separated CSV files.
 Recognized column names include `taxon`, `taxa`, `species`, `name`, and
@@ -97,6 +106,24 @@ matrix, not independently inferred phylogenies.
 | [`ggplot2`](https://ggplot2.tidyverse.org/) | Dendrogram & Ordination plotting |
 | [`ggrepel`](https://cran.r-project.org/package=ggrepel) | Text label repulsion for PCoA plots |
 | [`DT`](https://rstudio.github.io/DT/) | Interactive distance matrix table |
+
+---
+
+## Deployment
+
+The app ships with a lineage cache for the example taxa so that the first
+queries are fast. Before every deployment, rebuild it with the same `taxodist`
+version that will be installed on the server:
+
+```r
+setwd("taxodist_app")
+source("build_cache.R")   # writes lineage-cache.rds and lineage-cache.dcf
+rsconnect::deployApp()
+```
+
+`lineage-cache.dcf` records the `taxodist` version used. The app ignores the
+cache when that version differs from the installed one, so lineages parsed by
+an older version are never served.
 
 ---
 
